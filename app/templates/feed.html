@@ -66,14 +66,31 @@
   <body>
     <div class="app-page" data-page="home">
       <div class="app-topbar">
-        <div class="app-title">Sports</div>
+        <div class="app-title">Home</div>
       </div>
       <div class="app-content">
-        <ul id="feed">
+        <ul class="feed">
         </ul>        
       </div>
     </div>    
-    
+    <div class="app-page" data-page="sports">
+      <div class="app-topbar">
+        <div class="app-title">Sports</div>
+      </div>
+      <div class="app-content">
+        <ul class="feed">
+        </ul>        
+      </div>
+    </div>  
+    <div class="app-page" data-page="politics">
+      <div class="app-topbar">
+        <div class="app-title">Politics</div>
+      </div>
+      <div class="app-content">
+        <ul class="feed">
+        </ul>        
+      </div>
+    </div>          
     <!-- put your pages here -->
     <script src="http://zeptojs.com/zepto.min.js"></script>
     <script src="http://cdn.kik.com/app/1/app.js"></script>
@@ -106,6 +123,9 @@
           }
         });
 
+        var SportsFeedView = FeedView.extend({});
+        var PoliticsFeedView = FeedView.extend({});        
+
         var StoryView = Backbone.View.extend({
           tpl: _.template($('#story-template').html()),
           initialize: function(args) {
@@ -121,15 +141,30 @@
         });
 
         App.populator('home', function (page) {
-            new FeedView({
-              el: $(page).find('#feed'),
-              initialStories: [{
-                  images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
-                  title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
-                  kik_count: 20
-                }]
-            }).render();
+            App.load('sports');
         });
+
+        App.populator('sports', function (page) {
+          new FeedView({
+            el: $(page).find('.feed'),
+            initialStories: [{
+                images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
+                title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
+                kik_count: 20
+              }]
+          }).render();
+        });
+
+        App.populator('politics', function (page) {
+          new FeedView({
+            el: $(page).find('#feed'),
+            initialStories: [{
+                images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
+                title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
+                kik_count: 20
+              }]
+          }).render();
+        });                
 
         /* initialize function */
         (function() {
