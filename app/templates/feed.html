@@ -64,11 +64,16 @@
     </style>
   </head>
   <body>
-    <header>
-      Sports
-    </header>
-    <ul id="feed">
-    </ul>
+    <div class="app-page" data-page="home">
+      <div class="app-topbar">
+        <div class="app-title">Sports</div>
+      </div>
+      <div class="app-content">
+        <ul id="feed">
+        </ul>        
+      </div>
+    </div>    
+    
     <!-- put your pages here -->
     <script src="http://zeptojs.com/zepto.min.js"></script>
     <script src="http://cdn.kik.com/app/1/app.js"></script>
@@ -80,7 +85,7 @@
           initialize: function(args) {
             this.stories     = args.initialStories;
             this.storieViews = [];
-            this.setElement($('#feed'));
+            this.setElement(args.el);
           },
           events: {
 
@@ -94,7 +99,7 @@
               );
             }, this));
           },
-          appendStory: function(storyData) {      
+          appendStory: function(storyData) {  
             var view = new StoryView(storyData);
             $(this.el).append(view.render().el);
             return view;
@@ -115,15 +120,20 @@
           }
         });
 
+        App.populator('home', function (page) {
+            new FeedView({
+              el: $(page).find('#feed'),
+              initialStories: [{
+                  images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
+                  title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
+                  kik_count: 20
+                }]
+            }).render();
+        });
+
         /* initialize function */
         (function() {
-          new FeedView({
-            initialStories: [{
-                images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
-                title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
-                kik_count: 20
-              }]
-          }).render();
+          App.load('home');
         })();
       });      
     </script>
@@ -133,14 +143,15 @@
     <script id="story-template" type="text/html">
       <li>
         <div class="story">
-          <img class="story-image" 
-               src="<%= images[0] %>" />
+          <img class="story-image" src="<%= images[0] %>" />
           <div class="story-title">
             <%= title %>
           </div>
           <div class="kik-stats">
             <div class="left"><%= kik_count %></div>
-            <div class="left">Kik It</div>
+            <div class="left">
+              <div class="app-button">Kik It</div>
+            </div>
           </div>          
         </div>
       </li>
