@@ -99,16 +99,15 @@ body {
     -webkit-box-sizing: border-box;
     box-sizing: border-box; }
   .story .s-details {
-    padding: 10px;
+    padding: 0px 10px;
     background-color: white;
     margin-top: -6px;
     position: relative; }
     .story .s-details .title {
-      font-size: 20px;
+      font-size: 18px;
       color: #4D4D4D;
       font-weight: bold;
-      text-align: left;
       padding: 5px 0px; }
     .story .s-details .kik-stats {
-      padding: 5px;
+      padding: 10px;
       border-top: 1px solid #EDEDED; }
