@@ -106,4 +106,9 @@ body {
     .story .s-details .title {
       font-size: 20px;
       color: #4D4D4D;
-      font-weight: bold; }
+      font-weight: bold;
+      text-align: left;
+      padding: 5px 0px; }
+    .story .s-details .kik-stats {
+      padding: 5px;
+      border-top: 1px solid #EDEDED; }
