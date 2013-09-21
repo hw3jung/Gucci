@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My App</title>
+    <title>Kik News</title>
     <meta name="viewport" content="width=device-width,
                                    initial-scale=1.0,
                                    maximum-scale=1.0,
                                    user-scalable=no">
+    <meta name="kik-prefer" content="true">
+    <link rel="kik-icon" href="news_icon.jpg">
     <link rel="stylesheet" href="http://cdn.kik.com/app/1/default.css">
     <link rel="stylesheet" href="/static/feed.css" />
     <style>
@@ -92,10 +94,12 @@
       </div>
     </div>          
     <!-- put your pages here -->
+    <script src="http://cdn.kik.com/cards/0/cards.js"></script>
     <script src="http://zeptojs.com/zepto.min.js"></script>
     <script src="http://cdn.kik.com/app/1/app.js"></script>
     <script src="http://underscorejs.org/underscore-min.js"></script>
     <script src="http://backbonejs.org/backbone-min.js"></script>
+    <script scr="http://code.kik.com/swapper/1.0.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
         var FeedView = Backbone.View.extend({
@@ -184,8 +188,7 @@
           </div>
           <div class="kik-stats">
             <div class="left"><%= kik_count %></div>
-            <div class="left">
-              <div class="app-button">Kik It</div>
+            <div class="app-button right">Kik It</div>
             </div>
           </div>          
         </div>
