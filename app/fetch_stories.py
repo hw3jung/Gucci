@@ -3,6 +3,7 @@ import threading
 import time
 import urllib2
 import json
+from bs4 import BeautifulSoup
 
 def get_mongo_client():
     pass
@@ -49,8 +50,8 @@ class BBCStoryFetcher(StoryFetcher):
         client   = get_mongo_client()
         for topic in self.topics:
             req = urllib2.Request(self.BASE_URI + topic)
-            response = urllib2.urlopen(req)
-            response = json.loads(response.read())
+            response = urllib2.urlopen(req).read()
+            response = json.loads(response)
             #push data into mongo
         close_mongo_client()    
 
@@ -66,6 +67,28 @@ class FeedZillaStoryFetcher(StoryFetcher):
             response = json.loads(response.read())
             #push data into mongo
         close_mongo_client() 
+
+class TMZStoryFetcher(StoryFetcher):
+    MAX_CALLS_PER_DAY = 24
+    BASE_URI = 'http://www.tmz.com/'
+    
+    def fetch_stories(self):
+        client   = get_mongo_client()
+        req = urllib2.Request('http://www.tmz.com')
+        response = urllib2.urlopen(req)
+        soup = BeautifulSoup(response.read(), 'lxml')
+        articles = soup.find_all('article', class_='post')
+        try:
+            for article in articles:
+                title = str(article.find_all('h1')[0].string) + ': ' + \
+                        str(article.find_all('h2')[0].string )
+                img = article.find_all('img')[0].get('src')
+                link = article.find_all('a')[0].get('href')
+                #insert link, img and title 
+                # into mongo
+        except Exception, e:
+            pass
+        close_mongo_client()
 
 def main():
     NYTStoryFetcher().start()
