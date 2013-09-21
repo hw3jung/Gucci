@@ -111,3 +111,6 @@ body {
     .story .s-details .kik-stats {
       padding: 10px;
       border-top: 1px solid #EDEDED; }
+      .story .s-details .kik-stats .kik-it {
+        padding-left: 10px;
+        border-left: 1px solid #EDEDED; }

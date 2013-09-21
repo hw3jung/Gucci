@@ -56,6 +56,11 @@ body {
     padding: 10px;
     border-top: 1px solid #EDEDED;
     @extend .clearfix;
+
+    .kik-it {
+      padding-left: 10px; 
+      border-left: 1px solid #EDEDED;
+    }
    }     
   } 
 }
