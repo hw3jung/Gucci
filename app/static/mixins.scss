@@ -1,0 +1,208 @@
+/**
+ * NOTE: the ordering of the css styles MATTERS
+ * http://stackoverflow.com/questions/7080605/ordering-of-vendor-specific-css-declarations
+ */
+
+@mixin linear-gradient($color1, $color2, $color3, $gradient_start: bottom, $gradient_end: top) {
+  background-image: -o-linear-gradient($gradient_start, $color1, $color2, $color3);
+  background-image: -moz-linear-gradient($gradient_start, $color1, $color2, $color3);
+  background-image: -webkit-gradient(linear, center $gradient_start, center $gradient_end, color-stop(0%, $color1), color-stop(50%, $color2), color-stop(100%, $color3));
+  background-image: -webkit-linear-gradient($gradient_start, $color1, $color2, $color3);
+  background-image: -ms-linear-gradient($gradient_start, $color1, $color2, $color3);
+  background-image: linear-gradient($gradient_start, $color1, $color2, $color3);
+}
+
+@mixin linear-gradient-abstract($moz, $webkit_gradient, $webkit_linear_gradient, $o, $linear) { 
+  background-image: -moz-linear-gradient($moz);
+  background-image: -webkit-gradient($webkit_gradient);
+  background-image: -webkit-linear-gradient($webkit_linear_gradient);
+  background-image: -o-linear-gradient($o);
+  background-image: linear-gradient($linear);
+}
+
+@mixin linear-gradient-with-ie($color1, $color2) {
+  background: $color1; /* Old browsers */
+  background: -moz-linear-gradient(top, $color1 1%, $color2 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,$color1), color-stop(100%,$color2)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, $color1 1%,$color2 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, $color1 1%,$color2 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, $color1 1%,$color2 100%); /* IE10+ */
+  background: linear-gradient(to bottom, $color1 1%,$color2 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color1}', endColorstr='#{$color2}',GradientType=0 ); /* IE6-9 */
+}
+
+@mixin button-linear-gradient($color1, $color2) {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, $color1), color-stop(1, $color2));
+  background: -moz-linear-gradient(center top, $color1 5%, $color2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$color1}', endColorstr='#{$color2}');
+  background-color: $color1;
+}
+
+@mixin position-background {
+  -webkit-background-size: cover;
+     -moz-background-size: cover;
+       -o-background-size: cover;
+          background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
+@mixin border-radius($args) {
+  -webkit-border-radius: $args;
+     -moz-border-radius: $args;
+          border-radius: $args;
+}
+
+@mixin border-top-left-radius($args) {
+  border-top-left-radius: $args;
+  -webkit-border-radius-topleft: $args;
+  -moz-border-radius-topleft: $args;
+}
+
+@mixin border-bottom-left-radius($args) {
+  border-bottom-left-radius: $args;
+  -webkit-border-radius-bottomleft: $args;
+  -moz-border-radius-bottomleft: $args;
+}
+
+@mixin border-top-right-radius($args) {
+  border-top-right-radius: $args;
+  -webkit-border-radius-topright: $args;
+  -moz-border-radius-topright: $args;
+}
+
+@mixin border-bottom-right-radius($args) {
+  border-bottom-right-radius: $args;
+  -webkit-border-radius-bottomright: $args;
+  -moz-border-radius-bottomright: $args;
+}
+
+@mixin box-shadow($args) {
+  -webkit-box-shadow: $args;
+     -moz-box-shadow: $args;
+          box-shadow: $args;
+}
+
+@mixin transition($args) {
+  -webkit-transition: $args;
+     -moz-transition: $args;
+       -o-transition: $args;
+          transition: $args;
+}
+
+@mixin opacity($opacity) {
+  zoom: 1;
+  filter: alpha(opacity=$opacity*100);
+  -moz-opacity: $opacity;  
+  -khtml-opacity: $opacity;    
+  opacity: $opacity;
+}
+
+@mixin rgba($r, $g, $b, $a) {
+  background: rgb($r, $g, $b);
+  background: rgba($r, $g, $b, $a);
+}
+
+@mixin fadeIn($duration) {
+    opacity:0;
+    -webkit-animation:fadeIn ease-in 1;
+    -moz-animation:fadeIn ease-in 1;
+    -o-animation:fadeIn ease-in 1;
+    animation:fadeIn ease-in 1;
+    -webkit-animation-fill-mode:forwards;
+    -moz-animation-fill-mode:forwards;
+    -o-animation-fill-mode:forwards;
+    animation-fill-mode:forwards;
+    -webkit-animation-duration:$duration;
+    -moz-animation-duration:$duration;
+    -o-animation-duration:$duration;
+    animation-duration:$duration;
+
+    &.no-animation {
+      opacity: 1;
+    }
+}
+
+@mixin arrow_down($size, $color) {
+  width: 0; 
+  height: 0; 
+  border-left: $size solid transparent;
+  border-right: $size solid transparent;
+  border-top: $size solid $color;
+  border-style: solid outset solid solid;
+}
+
+@mixin arrow_up($size, $color) { 
+  border-left: $size solid transparent;
+  border-right: $size solid transparent;
+  border-bottom: $size solid $color;
+  border-style: solid outset solid solid;
+}
+
+@mixin text_overflow_ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin fancy-green-button($width, $height, $border-radius, $font_size:1.7em) {
+  .fancy-green-btn {
+    border: 1px solid #7FA84D;
+    width: $width;
+    height: $height;
+    margin: 10px auto;
+    display: block;
+    @include border-radius($border-radius);
+    .fancy-green-btn-inner {
+      display: block;
+      border: 1px solid #B5EC7F;
+      @include border-radius($border-radius);
+      @include linear-gradient-with-ie(#7CC22B, #6BA222);
+      text-align: center;
+      text-shadow : 0px 1px 1px black;
+      font-size: $font_size;
+      line-height: $height - 2;
+      width: $width - 2;
+      height: $height - 2;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+
+      &:hover {
+        @include opacity(0.8);
+      }
+    }
+  }
+}
+
+@mixin border-box-sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing: border-box;
+}
+
+@mixin square($dim) {
+  width:$dim;
+  height:$dim;
+}
+
+@mixin animation-delay($delay) {
+  -webkit-animation-delay: $delay;
+  -moz-animation-delay: $delay;
+  -ms-animation-delay: $delay;
+  -o-animation-delay: $delay;  
+}
+
+@mixin animation-duration($duration) {
+  -webkit-animation-duration: $duration;
+  -moz-animation-duration: $duration;
+  -ms-animation-duration: $duration;
+  -o-animation-duration: $duration;
+}
+
+@mixin animation-iteration-count($iterations) {
+  -webkit-animation-iteration-count: $iterations;
+  -moz-animation-iteration-count: $iterations;
+  -ms-animation-iteration-count: $iterations;
+  -o-animation-iteration-count: $iterations;
+}
