@@ -9,7 +9,6 @@
     <meta name="kik-prefer" content="true">
     <link rel="kik-icon" href="news_icon.jpg">
     <link rel="stylesheet" href="http://cdn.kik.com/app/1/default.css">
-    <link rel="stylesheet" href="/static/feed.css" />
     <style>
       header {
         padding: 20px 0px;
@@ -213,7 +212,7 @@
 
         App.populator('politics', function (page) {
           new PoliticsFeedView({
-            el: $(page).find('#feed'),
+            el: $(page).find('.feed'),
             initialStories: [{
                 images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
                 title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
