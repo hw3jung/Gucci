@@ -91,19 +91,29 @@ $(document).ready(function() {
           images: ['http://1.bp.blogspot.com/-EzRKNTvRy0c/UceFSqUCGQI/AAAAAAAAGVc/5yD-qiGwWVk/s1600/Graz,+Austria.+Ermahgerd.jpg'],
           title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
           kik_count: 20,
-          source: 'New York Times'
+          source: 'New York Times',
+          link: 'http://www.nytimes.com/2013/09/22/nyregion/green-cabs-appear-as-bloomberg-prepares-to-depart.html?hp'
         }, {
           images: ['http://graphics8.nytimes.com/images/2013/09/21/us/CALIFORNIA/CALIFORNIA-popup.jpg'],
           title: 'California Gives Expanded Rights to Noncitizens',
           kik_count: 8,
-          source: 'New York Times'
+          source: 'New York Times',
+          link: 'http://www.nytimes.com/2013/09/22/nyregion/green-cabs-appear-as-bloomberg-prepares-to-depart.html?hp'
         },
         {
           images: ['http://graphics8.nytimes.com/images/2013/09/22/nyregion/22BIGCITY1_SPAN/22BIGCITY1-articleLarge.jpg'],
           title: 'Green Cabs Appear as Bloomberg Prepares to Depart',
           kik_count: 50,
-          source: 'New York Times'
-        }]
+          source: 'New York Times',
+          link: 'http://www.nytimes.com/2013/09/22/nyregion/green-cabs-appear-as-bloomberg-prepares-to-depart.html?hp'
+        },
+        {
+          images: ['http://graphics8.nytimes.com/images/2013/09/20/business/19bits-ios7/19bits-ios7-tmagArticle.jpg'],
+          title: 'Despite Early Criticism, Apple’s iOS 7 Quickly Gains Traction',
+          kik_count: 100,
+          source: 'New York Times',
+          link: 'http://www.nytimes.com/2013/09/22/nyregion/green-cabs-appear-as-bloomberg-prepares-to-depart.html?hp'
+        }        ]
     }).render();
   });
 
