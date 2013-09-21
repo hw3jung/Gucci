@@ -88,7 +88,11 @@ $(document).ready(function() {
     new HomeFeedView({
       el: $(page).find('.feed'),
       initialStories: [{
-          images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
+          images: ['http://1.bp.blogspot.com/-EzRKNTvRy0c/UceFSqUCGQI/AAAAAAAAGVc/5yD-qiGwWVk/s1600/Graz,+Austria.+Ermahgerd.jpg'],
+          title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
+          kik_count: 20
+        }, {
+          images: ['http://media-cache-ak0.pinimg.com/736x/9a/c1/12/9ac112dc760449a9546f90a0339878d8.jpg'],
           title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
           kik_count: 20
         }]

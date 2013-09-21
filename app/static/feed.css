@@ -2,13 +2,17 @@
  * NOTE: the ordering of the css styles MATTERS
  * http://stackoverflow.com/questions/7080605/ordering-of-vendor-specific-css-declarations
  */
-header {
-  padding: 20px 0px;
-  text-align: center; }
+/* For modern browsers */
+.clearfix:before, .story .kik-stats:before, .clearfix:after, .story .kik-stats:after {
+  content: "";
+  display: table; }
 
-body {
-  padding: 20px;
-  overflow-x: hidden; }
+.clearfix:after, .story .kik-stats:after {
+  clear: both; }
+
+/* For IE 6/7 (trigger hasLayout) */
+.clearfix, .story .kik-stats {
+  zoom: 1; }
 
 .left {
   float: left; }
@@ -16,24 +20,80 @@ body {
 .right {
   float: right; }
 
+.clear {
+  clear: both; }
+
+.bold {
+  font-weight: bold; }
+
+.hide {
+  display: none !important; }
+
+.soft-hide {
+  display: none; }
+
+.invisible {
+  visibility: hidden !important; }
+
+.soft-invisible {
+  visibility: hidden; }
+
+.transparent {
+  opacity: 0; }
+
+.center {
+  margin-left: auto;
+  margin-right: auto; }
+
 ul {
-  list-style-type: null;
+  list-style-type: none;
   padding: 0px;
   margin: 0px; }
 
+body {
+  overflow-x: hidden;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.app-topbar {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  background: white;
+  color: black;
+  font-weight: normal;
+  border: 1px solid #EDEDED;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 0 16px #ededed;
+  -moz-box-shadow: 0 0 16px #ededed;
+  box-shadow: 0 0 16px #ededed;
+  width: 100%;
+  margin: 0px; }
+
+.app-content {
+  background: #fffef1 url(sos.png);
+  color: black;
+  padding: 20px; }
+
 .story {
+  padding: 0px;
+  margin-bottom: 20px;
+  background: #fff;
   text-align: center;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  border: 1px solid #D6D6D6; }
-  .story .story-title {
+  border: 1px solid #EDEDED;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); }
+  .story .title {
     font-size: 40px; }
-  .story .story-kik-stats {
-    clear: both; }
-  .story .story-image {
-    max-width: 90%;
-    max-height: 500px;
+  .story .image {
+    width: 100%;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
