@@ -54,9 +54,10 @@ body {
    }      
 
    .source {
-    padding-top: 10px;
+    padding-top: 15px;
+    max-width: 90px;
    }
-   
+
    .kik-stats {
     padding: 10px;
     border-top: 1px solid #EDEDED;
@@ -65,6 +66,8 @@ body {
     .kik-it {
       padding-left: 10px; 
       border-left: 1px solid #EDEDED;
+      font-weight: bold;
+      font-size: 20px;
     }
    }     
   } 
