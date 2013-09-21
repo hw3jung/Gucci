@@ -1,0 +1,52 @@
+header {
+  padding: 20px 0px;
+  text-align: center;
+}
+
+body {
+  padding: 20px;
+  overflow-x:hidden; 
+
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+ul {
+  list-style-type: null;
+  padding: 0px;
+  margin: 0px;
+}
+
+.story {
+  text-align: center;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;        
+  border: 1px solid #D6D6D6;
+}
+
+.story-image {
+  max-width: 90%;
+  max-height: 500px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;        
+
+
+  box-sizing:border-box;
+  -moz-box-sizing:border-box; /* Firefox */        
+}
+
+.story-title {
+  font-size:40px;
+}      
+
+.story-kik-stats {
+  clear: both;
+}

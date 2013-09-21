@@ -1,9 +1,13 @@
 $(document).ready(function() {
   var FeedView = Backbone.View.extend({
+    pollInterval: 30000,
+    feedCategories: [],
     initialize: function(args) {
       this.stories     = args.initialStories;
       this.storieViews = [];
+      this.latestStoryID = null;
       this.setElement(args.el);
+      this.startTimeout();
     },
     events: {
 
@@ -17,15 +21,51 @@ $(document).ready(function() {
         );
       }, this));
     },
+    startTimeout: function() {
+      this.pollTimeoutID = setTimeout(
+        this.checkForNewStories, 
+        this.pollInterval
+      );
+    },
+    checkForNewStories: function() {
+      var onComplete = function(data) {
+        var prependStory = this.prependStory;
+        _.each(data.stories, function() {
+          prependStory(story);
+        });
+        if(data.stories.length > 0) {
+          this.latestStoryID = data.stories[data.stories.length - 1].id;
+        }
+        this.startTimeout
+      }
+
+      var onFailure = function() {
+        this.startTimeout();
+      }
+
+      $.ajax({
+        dataType: 'json',
+        url: '/api/latest',
+        data: { since: this.latestStoryID, feed: this.feedType },
+        success: _.bind(onComplete, this),
+        error: _.bind(this.startTimeout, this)
+      });
+    },
     appendStory: function(storyData) {  
       var view = new StoryView(storyData);
       $(this.el).append(view.render().el);
       return view;
-    }
+    },
+    prependStory: function(storyData) {  
+      var view = new StoryView(storyData);
+      $(this.el).prepend(view.render().el);
+      return view;
+    }          
   });
 
-  var SportsFeedView   = FeedView.extend({});
-  var PoliticsFeedView = FeedView.extend({});        
+  var HomeFeedView     = FeedView.extend({ feedCategories: ['sports', 'politics'] });
+  var SportsFeedView   = FeedView.extend({ feedCategories: ['sports'] });
+  var PoliticsFeedView = FeedView.extend({ feedCategories: ['politics'] });        
 
   var StoryView = Backbone.View.extend({
     tpl: _.template($('#story-template').html()),
@@ -38,11 +78,14 @@ $(document).ready(function() {
     render: function() {
       $(this.el).html(this.tpl(this.story));
       return this;
+    },
+    postKikIt: function() {
+
     }
   });
 
   App.populator('home', function (page) {
-    new SportsFeedView({
+    new HomeFeedView({
       el: $(page).find('.feed'),
       initialStories: [{
           images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
@@ -74,8 +117,5 @@ $(document).ready(function() {
     }).render();
   });                
 
-  /* initialize function */
-  (function() {
-    App.load('home');
-  })();
-});      
+  App.load('home');
+});
