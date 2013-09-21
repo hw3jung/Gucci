@@ -74,15 +74,15 @@ class TMZStoryFetcher(StoryFetcher):
     
     def fetch_stories(self):
         client   = get_mongo_client()
-        req = urllib2.Request('http://www.tmz.com')
+        req      = urllib2.Request(self.BASE_URI)
         response = urllib2.urlopen(req)
-        soup = BeautifulSoup(response.read(), 'lxml')
+        soup     = BeautifulSoup(response.read(), 'lxml')
         articles = soup.find_all('article', class_='post')
         try:
             for article in articles:
                 title = str(article.find_all('h1')[0].string) + ': ' + \
                         str(article.find_all('h2')[0].string )
-                img = article.find_all('img')[0].get('src')
+                img  = article.find_all('img')[0].get('src')
                 link = article.find_all('a')[0].get('href')
                 #insert link, img and title 
                 # into mongo
@@ -90,11 +90,38 @@ class TMZStoryFetcher(StoryFetcher):
             pass
         close_mongo_client()
 
+class ESPNStoryFetcher(StoryFetcher):
+    MAX_CALLS_PER_DAY = 7400
+    API_KEY    = 'dwk3nu6pd75r5ewrhp6kggsv'
+    API_SECRET = 'A9ctQPd8xsBdgzkWjw45nrrs'
+    BASE_URI   = 'http://api.espn.com/v1'
+    METHODS    = ['/sports/news/headlines', '/sports/news/headlines/top']
+    current_method = 0
+    def fetch_stories(self):
+        uri = '%s%s?apikey=%s' % \
+              (self.BASE_URI, self.METHODS[self.current_method], self.API_KEY,)
+        req      = urllib2.Request(uri)
+        response = urllib2.urlopen(req)
+        response = json.loads(response.read())
+        headlines = response['headlines']
+        for headline in headlines:
+            try:
+                title       = headline['headline']
+                link        = headline['links']['mobile']
+                description = headline['description']
+                images      = map(lambda _: _['url'], headline['images'])
+            except Exception, e:
+                raise e
+
+        #alternate between methods calls
+        current_method = int(not current_method)
+
 def main():
     NYTStoryFetcher().start()
     BBCStoryFetcher().start()
     FeedZillaStoryFetcher().start()
     TMZStoryFetcher().start()
+    ESPNStoryFetcher.start()
 
 if __name__ == '__main__':
     main()

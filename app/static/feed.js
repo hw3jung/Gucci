@@ -1,63 +1,5 @@
 $(document).ready(function() {
 
-  // initialize tap event for mobile
-  $.event.tap = {
-    // Abort tap if touch moves further than 10 pixels in any direction
-    distanceThreshold: 10,
-    // Abort tap if touch lasts longer than half a second
-    timeThreshold: 500,
-    setup: function() {
-      var self = this,
-        $self = $(self);
-
-      // Bind touch start
-      $self.on('touchstart', function(startEvent) {
-        // Save the target element of the start event
-        var target = startEvent.target,
-          touchStart = startEvent.originalEvent.touches[0],
-          startX = touchStart.pageX,
-          startY = touchStart.pageY,
-          threshold = $.event.special.tap.distanceThreshold,
-          timeout;
-
-        function removeTapHandler() {
-          clearTimeout(timeout);
-          $self.off('touchmove', moveHandler).off('touchend', tapHandler);
-        };
-
-        function tapHandler(endEvent) {
-          removeTapHandler();
-
-          // When the touch end event fires, check if the target of the
-          // touch end is the same as the target of the start, and if
-          // so, fire a click.
-          if (target == endEvent.target) {
-            $.event.simulate('tap', self, endEvent);
-          }
-        };
-
-        // Remove tap and move handlers if the touch moves too far
-        function moveHandler(moveEvent) {
-          var touchMove = moveEvent.originalEvent.touches[0],
-            moveX = touchMove.pageX,
-            moveY = touchMove.pageY;
-
-          if (Math.abs(moveX - startX) > threshold ||
-              Math.abs(moveY - startY) > threshold) {
-            removeTapHandler();
-          }
-        };
-
-        // Remove the tap and move handlers if the timeout expires
-        timeout = setTimeout(removeTapHandler,
-                                    $.event.special.tap.timeThreshold);
-
-        // When a touch starts, bind a touch end and touch move handler
-        $self.on('touchmove', moveHandler).on('touchend', tapHandler);
-      });
-    }
-  };
-
   var FeedView = Backbone.View.extend({
     pollInterval: 30000,
     feedCategories: [],
@@ -65,6 +7,7 @@ $(document).ready(function() {
       this.stories     = args.initialStories;
       this.storieViews = [];
       this.latestStoryID = null;
+      this.oldestStoryID = null;
       this.setElement(args.el);
       this.startTimeout();
     },
@@ -93,22 +36,42 @@ $(document).ready(function() {
           prependStory(story);
         });
         if(data.stories.length > 0) {
-          this.latestStoryID = data.stories[data.stories.length - 1].id;
+          this.latestStoryID = data.stories[
+            data.stories.length - 1
+          ].id;
         }
         this.startTimeout
       }
 
-      var onFailure = function() {
+      $.ajax({
+        dataType: 'json',
+        url: '/api/stories/since',
+        data: { since: this.latestStoryID, categories: this.feedCategories },
+        success: _.bind(onComplete, this),
+        error: _.bind(this.startTimeout, this)
+      });
+    },
+    loadOlderStories: function () {
+      var onComplete = function(data) {
+        var appendStory = this.appendStory;
+        _.each(data.stories, function() {
+          appendStory(story);
+        });
+        if(data.stories.length > 0) {
+          this.oldestStoryID = data.stories[
+            data.stories.length - 1
+          ].id;
+        }
         this.startTimeout();
       }
 
       $.ajax({
         dataType: 'json',
-        url: '/api/latest',
-        data: { since: this.latestStoryID, feed: this.feedType },
+        url: '/api/stories/before',
+        data: { since: this.oldestStoryID, categories: this.feedCategories },
         success: _.bind(onComplete, this),
         error: _.bind(this.startTimeout, this)
-      });
+      });      
     },
     appendStory: function(storyData) {  
       var view = new StoryView(storyData);
@@ -122,18 +85,25 @@ $(document).ready(function() {
     }          
   });
 
-  var HomeFeedView     = FeedView.extend({ feedCategories: ['sports', 'politics'] });
-  var SportsFeedView   = FeedView.extend({ feedCategories: ['sports'] });
-  var PoliticsFeedView = FeedView.extend({ feedCategories: ['politics'] });        
+  var HomeFeedView      = FeedView.extend({ feedCategories: ['sports', 'politics', 'celebrity'] });
+  var SportsFeedView    = FeedView.extend({ feedCategories: ['sports'] });
+  var PoliticsFeedView  = FeedView.extend({ feedCategories: ['politics'] });
+  var CelebrityFeedView = FeedView.extend({ feedCategories: ['celebrity'] });        
 
   var StoryView = Backbone.View.extend({
     tpl: _.template($('#story-template').html()),
+    SOURCE_LOGOS: {
+      'tmz': 'http://upload.wikimedia.org/wikipedia/commons/5/54/TMZLogo.svg',
+      'nyt': 'http://graphics8.nytimes.com/images/misc/nytlogo152x23.gif',
+      'bbc': 'https://2.gravatar.com/avatar/e06c65f9e89d28025c47b6046f701c13?d=https%3A%2F%2Fidenticons.github.com%2F1b38f1ee5d9820f661140aeecbae649a.png&s=400'
+    },
     initialize: function(args) {
       this.story = args.story;
     },
     events: {
-      'tap .image' : 'goToLink',
-      'tap .title' : 'goToLink'
+      'tap .image'  : 'goToLink',
+      'tap .title'  : 'goToLink',
+      'tap .kik-it' : 'kikIt',
     }, 
     goToLink: function () {
       window.location = this.story.link;
@@ -142,7 +112,7 @@ $(document).ready(function() {
       $(this.el).html(this.tpl(this.story));
       return this;
     },
-    postKikIt: function() {
+    kikIt: function() {
 
     }
   });
@@ -180,8 +150,6 @@ $(document).ready(function() {
     }).render();
   });
 
-  
-
   App.populator('sports', function (page) {
     new SportsFeedView({
       el: $(page).find('.feed'),
@@ -191,10 +159,17 @@ $(document).ready(function() {
 
   App.populator('politics', function (page) {
     new PoliticsFeedView({
-      el: $(page).find('#feed'),
+      el: $(page).find('.feed'),
       initialStories: []
     }).render();
   });                
+
+  App.populator('celebrity', function (page) {
+    new CelebrityFeedView({
+      el: $(page).find('.feed'),
+      initialStories: []
+    }).render();
+  });  
 
   App.load('home');
 });
