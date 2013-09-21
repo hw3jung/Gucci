@@ -7,15 +7,143 @@
                                    maximum-scale=1.0,
                                    user-scalable=no">
     <link rel="stylesheet" href="http://cdn.kik.com/app/1/default.css">
+    <link rel="stylesheet" href="/static/feed.css" />
     <style>
-      <link rel="stylesheet" href="/static/feed.css" />
+      header {
+        padding: 20px 0px;
+        text-align: center;
+      }
+
+      body {
+        padding: 20px;
+        overflow-x:hidden; 
+
+      }
+
+      .left {
+        float: left;
+      }
+
+      .right {
+        float: right;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0px;
+        margin: 0px;
+      }
+
+      .story {
+        text-align: center;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;        
+        border: 1px solid #D6D6D6;
+      }
+
+      .story-image {
+        max-width: 90%;
+        max-height: 500px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;        
+
+
+        box-sizing:border-box;
+        -moz-box-sizing:border-box; /* Firefox */        
+      }
+
+      .story-title {
+        font-size:40px;
+      }      
+
+      .story-kik-stats {
+        clear: both;
+      }
     </style>
   </head>
   <body>
-    Hello World {{ name }}
+    <header>
+      Sports
+    </header>
+    <ul id="feed">
+    </ul>
     <!-- put your pages here -->
     <script src="http://zeptojs.com/zepto.min.js"></script>
     <script src="http://cdn.kik.com/app/1/app.js"></script>
-    <script src="/static/feed.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="http://backbonejs.org/backbone-min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var FeedView = Backbone.View.extend({
+          initialize: function(args) {
+            this.stories     = args.initialStories;
+            this.storieViews = [];
+            this.setElement($('#feed'));
+          },
+          events: {
+
+          },          
+          render: function() {
+            _.each(this.stories, _.bind(function(storyData) {
+              this.storieViews.push(
+                this.appendStory({
+                  story: storyData
+                })
+              );
+            }, this));
+          },
+          appendStory: function(storyData) {      
+            var view = new StoryView(storyData);
+            $(this.el).append(view.render().el);
+            return view;
+          }
+        });
+
+        var StoryView = Backbone.View.extend({
+          tpl: _.template($('#story-template').html()),
+          initialize: function(args) {
+            this.story = args.story;
+          },
+          events: {
+
+          }, 
+          render: function() {
+            $(this.el).html(this.tpl(this.story));
+            return this;
+          }
+        });
+
+        /* initialize function */
+        (function() {
+          new FeedView({
+            initialStories: [{
+                images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
+                title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
+                kik_count: 20
+              }]
+          }).render();
+        })();
+      });      
+    </script>
+
+
+    <!-- feed template -->
+    <script id="story-template" type="text/html">
+      <li>
+        <div class="story">
+          <img class="story-image" 
+               src="<%= images[0] %>" />
+          <div class="story-title">
+            <%= title %>
+          </div>
+          <div class="kik-stats">
+            <div class="left"><%= kik_count %></div>
+            <div class="left">Kik It</div>
+          </div>          
+        </div>
+      </li>
+    </script>
   </body>
 </html>
