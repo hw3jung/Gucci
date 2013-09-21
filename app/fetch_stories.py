@@ -12,7 +12,7 @@ def close_mongo_client():
 
 class StoryFetcher(threading.Thread):
     MAX_CALLS_PER_DAY = 9900
-    POLL_INTERVAL     = max(((24 * 60 * 60) / MAX_CALLS_PER_DAY), 20)
+    POLL_INTERVAL     = max(((24 * 60 * 60) / MAX_CALLS_PER_DAY), 15)
 
     def __init__(self, *args, **kwargs):
         threading.Thread.__init__(self)
@@ -30,7 +30,8 @@ class StoryFetcher(threading.Thread):
 
 class NYTStoryFetcher(StoryFetcher):
     MAX_CALLS_PER_DAY = 9900
-    BASE_URI = ''
+    BASE_URI = 'http://api.nytimes.com/svc/'
+    
     def fetch_stories(self):
         req = urllib2.Request(BASE_URI)
         response = urllib2.urlopen(req)
@@ -43,6 +44,7 @@ class BBCStoryFetcher(StoryFetcher):
     MAX_CALLS_PER_DAY = 10000
     BASE_URI = 'http://api.bbcnews.appengine.co.uk/stories/'
     topics   = ['uk']
+    
     def fetch_stories(self):
         client   = get_mongo_client()
         for topic in self.topics:
@@ -55,6 +57,7 @@ class BBCStoryFetcher(StoryFetcher):
 class FeedZillaStoryFetcher(StoryFetcher):
     MAX_CALLS_PER_DAY = 10000
     BASE_URI = 'http://api.feedzilla.com/v1'
+    
     def fetch_stories(self):
         client   = get_mongo_client()
         for topic in self.topics:
