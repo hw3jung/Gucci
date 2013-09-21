@@ -53,18 +53,20 @@
 
 
     <!-- feed template -->
-    <script id="story-template" type="text/html">
+    <script id="story-template" type="text/html"> 
       <li>
         <div class="story">
           <img class="image" src="<%= images[0] %>" />
-          <div class="title">
-            <%= title %>
-          </div>
-          <div class="kik-stats">
-            <div class="left"><%= kik_count %></div>
-            <div class="app-button right">Kik It</div>
+          <div class="s-details">
+            <div class="title">
+              <%= title %>
             </div>
-          </div>          
+            <div class="kik-stats">
+              <div class="left"><%= kik_count %></div>
+              <div class="app-button right">Kik It</div>
+              </div>
+            </div>             
+          </div>         
         </div>
       </li>
     </script>

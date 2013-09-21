@@ -33,19 +33,28 @@ body {
   border: 1px solid #EDEDED;
   @include border-radius(5px);
   @include box-shadow(0 1px 4px rgba(0,0,0,.3)); 
+
+  .image {
+    width: 100%;
+    @include border-radius(4px);      
+    @include border-box-sizing;      
+  }
+
+  .s-details {
+    padding: 10px;
+    background-color: white;
+    margin-top: -6px;
+    position: relative;
    .title {
-     font-size:40px;
+     font-size:30px;
+     color: #4D4D4D;
+     font-weight: bold;
    }      
 
    .kik-stats {
      @extend .clearfix;
-   }
-
-   .image {
-      width: 100%;
-      @include border-radius(4px);      
-      @include border-box-sizing;      
-   }  
+   }     
+  } 
 }
 
 

@@ -3,15 +3,15 @@
  * http://stackoverflow.com/questions/7080605/ordering-of-vendor-specific-css-declarations
  */
 /* For modern browsers */
-.clearfix:before, .story .kik-stats:before, .clearfix:after, .story .kik-stats:after {
+.clearfix:before, .story .s-details .kik-stats:before, .clearfix:after, .story .s-details .kik-stats:after {
   content: "";
   display: table; }
 
-.clearfix:after, .story .kik-stats:after {
+.clearfix:after, .story .s-details .kik-stats:after {
   clear: both; }
 
 /* For IE 6/7 (trigger hasLayout) */
-.clearfix, .story .kik-stats {
+.clearfix, .story .s-details .kik-stats {
   zoom: 1; }
 
 .left {
@@ -90,8 +90,6 @@ body {
   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); }
-  .story .title {
-    font-size: 40px; }
   .story .image {
     width: 100%;
     -webkit-border-radius: 4px;
@@ -100,3 +98,12 @@ body {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box; }
+  .story .s-details {
+    padding: 10px;
+    background-color: white;
+    margin-top: -6px;
+    position: relative; }
+    .story .s-details .title {
+      font-size: 30px;
+      color: #4D4D4D;
+      font-weight: bold; }
