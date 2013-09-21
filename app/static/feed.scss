@@ -45,6 +45,7 @@ body {
     background-color: white;
     margin-top: -6px;
     position: relative;
+
    .title {
      font-size:18px;
      color: #4D4D4D;
@@ -52,6 +53,10 @@ body {
      padding: 5px 0px;
    }      
 
+   .source {
+    padding-top: 10px;
+   }
+   
    .kik-stats {
     padding: 10px;
     border-top: 1px solid #EDEDED;

@@ -90,34 +90,36 @@ $(document).ready(function() {
       initialStories: [{
           images: ['http://1.bp.blogspot.com/-EzRKNTvRy0c/UceFSqUCGQI/AAAAAAAAGVc/5yD-qiGwWVk/s1600/Graz,+Austria.+Ermahgerd.jpg'],
           title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
-          kik_count: 20
+          kik_count: 20,
+          source: 'New York Times'
         }, {
-          images: ['http://media-cache-ak0.pinimg.com/736x/9a/c1/12/9ac112dc760449a9546f90a0339878d8.jpg'],
-          title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
-          kik_count: 20
+          images: ['http://graphics8.nytimes.com/images/2013/09/21/us/CALIFORNIA/CALIFORNIA-popup.jpg'],
+          title: 'California Gives Expanded Rights to Noncitizens',
+          kik_count: 8,
+          source: 'New York Times'
+        },
+        {
+          images: ['http://graphics8.nytimes.com/images/2013/09/22/nyregion/22BIGCITY1_SPAN/22BIGCITY1-articleLarge.jpg'],
+          title: 'Green Cabs Appear as Bloomberg Prepares to Depart',
+          kik_count: 50,
+          source: 'New York Times'
         }]
     }).render();
   });
 
+  
+
   App.populator('sports', function (page) {
     new SportsFeedView({
       el: $(page).find('.feed'),
-      initialStories: [{
-          images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
-          title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
-          kik_count: 20
-        }]
+      initialStories: []
     }).render();
   });
 
   App.populator('politics', function (page) {
     new PoliticsFeedView({
       el: $(page).find('#feed'),
-      initialStories: [{
-          images: ['http://graphics8.nytimes.com/images/2013/09/21/sports/21kepner/21kepner-popup.jpg'],
-          title: 'Yankees’ Pettitte Is Set to Announce His Retirement',
-          kik_count: 20
-        }]
+      initialStories: []
     }).render();
   });                
 
