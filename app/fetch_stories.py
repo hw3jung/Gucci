@@ -12,7 +12,7 @@ def close_mongo_client():
 
 class StoryFetcher(threading.Thread):
     MAX_CALLS_PER_DAY = 9900
-    POLL_INTERVAL     = max(((24 * 60) / MAX_CALLS_PER_DAY), 20)
+    POLL_INTERVAL     = max(((24 * 60 * 60) / MAX_CALLS_PER_DAY), 20)
 
     def __init__(self, *args, **kwargs):
         threading.Thread.__init__(self)
