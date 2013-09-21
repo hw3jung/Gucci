@@ -7,13 +7,12 @@ body {
 }
 
 .app-topbar {
-  @include box-shadow(none !important);
   background: white;
   color: black;
   font-weight: normal;  
   border: 1px solid #EDEDED;
   @include border-radius(2px);
-  @include box-shadow(0 0 16px  #EDEDED);  
+  @include box-shadow(0 0 16px #EDEDED !important);  
   width: 100%;
   margin: 0px;
 

@@ -57,9 +57,6 @@ body {
   box-sizing: border-box; }
 
 .app-topbar {
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
   background: white;
   color: black;
   font-weight: normal;
@@ -67,9 +64,9 @@ body {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
-  -webkit-box-shadow: 0 0 16px #ededed;
-  -moz-box-shadow: 0 0 16px #ededed;
-  box-shadow: 0 0 16px #ededed;
+  -webkit-box-shadow: 0 0 16px #ededed !important;
+  -moz-box-shadow: 0 0 16px #ededed !important;
+  box-shadow: 0 0 16px #ededed !important;
   width: 100%;
   margin: 0px; }
 
