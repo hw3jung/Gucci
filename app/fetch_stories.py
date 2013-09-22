@@ -10,9 +10,6 @@ from datetime import datetime
 import signal
 import sys
 
-# debug
-import pdb
-
 MONGODB_URI = 'mongodb://heroku:f6a7beb1d678f34e3bbef2d5a6e62cbd@paulo.mongohq.com:10025/app18218091'
 
 
@@ -98,7 +95,7 @@ class NYTStoryFetcher(StoryFetcher):
                 'i': images,
                 'k': 0
             }
-            if len(params['i'] == 0): continue
+            if len(params['i']) == 0: continue
             new_articles.append(params)
 
         if len(new_articles) > 0:
@@ -165,7 +162,7 @@ class BBCStoryFetcher(StoryFetcher):
                 'i': images,
                 'k': 0
             }
-            if len(params['i'] == 0): continue
+            if len(params['i']) == 0: continue
             new_articles.append(params)
 
         if len(new_articles) > 0:
@@ -220,7 +217,7 @@ class TMZStoryFetcher(StoryFetcher):
                 'i': images,
                 'k': 0
             }
-            if len(params['i'] == 0): continue
+            if len(params['i']) == 0: continue
             new_articles.append(params)
 
         if len(new_articles) > 0:
@@ -290,7 +287,7 @@ class ESPNStoryFetcher(StoryFetcher):
                 'i': article['images'],
                 'k': 0
             }
-            if len(params['i'] == 0): continue
+            if len(params['i']) == 0: continue
             new_articles.append(params)
 
         if len(new_articles) > 0:
@@ -316,7 +313,8 @@ class ESPNStoryFetcher(StoryFetcher):
                 description = headline['description']
                 byline = headline[
                     'byline'] if 'byline' in headline else ""
-                images = map(lambda _: _['url']['href'], headline['images'])
+                images = map(lambda _: _['url']['href'] if 'href' in _['url'] \
+                    else _['url'], headline['images'])
                 published = headline['published']
 
                 article_dicts.append({

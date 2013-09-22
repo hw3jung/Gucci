@@ -11,7 +11,7 @@ def get_latest_stories(categories, offset, num_articles=30):
 
     articles =  article_collection.find({
                     'c': {'$in': categories}
-                }).sort('_id', 1).skip(offset).limit(num_articles)
+                }).sort('_id', -1).skip(offset).limit(num_articles)
 
     article_dicts = []
     for article in articles:
@@ -35,8 +35,9 @@ def get_stories_since(since_id, categories, num_articles=10):
     article_collection = db['articles']
 
     articles =  article_collection.find({
-                    '_id': {'$gt': ObjectId(since_id) }
-                }).sort('_id', 1).limit(num_articles)
+                    '_id': {'$gt': ObjectId(since_id) },
+                    'c'  : {'$in': categories}
+                }).sort('_id', -1).limit(num_articles)
 
     article_dicts = []
     for article in articles:
