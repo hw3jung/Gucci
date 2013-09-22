@@ -60,16 +60,21 @@
     <script src="http://backbonejs.org/backbone-min.js"></script>
     <script src="http://code.kik.com/swapper/1.0.min.js"></script>
     <script src="{{ url_for('static', filename='feed.js') }}"></script>
+    <script type="text/javascript">
+      window.PAGE_PARAMS = {
+        'homeStories': {{ home_stories|tojson|safe }}
+      }
+    </script>
     <!-- feed template -->
     <script id="story-template" type="text/html"> 
       <div class="story">
-        <img class="image" src="<%= images[0] %>" />
+        <img class="image" src="<%= story.images[0] %>" />
         <div class="s-details">
           <div class="title">
-            <%= title %>
+            <%= story.title %>
           </div>
           <div class="kik-stats">
-            <img class="left source" src="http://graphics8.nytimes.com/images/misc/nytlogo152x23.gif" />
+            <img class="left source" src="<%= sourceLogo %>" />
             <div class="app-button right kik-it">Kik it</div>
             </div>
           </div>             

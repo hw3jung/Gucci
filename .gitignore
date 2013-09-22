@@ -2,3 +2,4 @@ venv
 *.pyc
 *.log
 app/static/.sass-cache
+commands.txt

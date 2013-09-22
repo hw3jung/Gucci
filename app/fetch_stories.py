@@ -26,7 +26,7 @@ def close_mongo_client(client):
 
 class StoryFetcher(threading.Thread):
     MAX_CALLS_PER_DAY = 9900
-    POLL_INTERVAL = max(((24 * 60 * 60) / MAX_CALLS_PER_DAY), 15)
+    POLL_INTERVAL = max(((24 * 60 * 60) / MAX_CALLS_PER_DAY), 30)
 
     def __init__(self, *args, **kwargs):
         threading.Thread.__init__(self)
@@ -98,7 +98,7 @@ class NYTStoryFetcher(StoryFetcher):
                 'i': images,
                 'k': 0
             }
-
+            if len(params['i'] == 0): continue
             new_articles.append(params)
 
         if len(new_articles) > 0:
@@ -165,7 +165,7 @@ class BBCStoryFetcher(StoryFetcher):
                 'i': images,
                 'k': 0
             }
-
+            if len(params['i'] == 0): continue
             new_articles.append(params)
 
         if len(new_articles) > 0:
@@ -220,7 +220,7 @@ class TMZStoryFetcher(StoryFetcher):
                 'i': images,
                 'k': 0
             }
-
+            if len(params['i'] == 0): continue
             new_articles.append(params)
 
         if len(new_articles) > 0:
@@ -290,7 +290,7 @@ class ESPNStoryFetcher(StoryFetcher):
                 'i': article['images'],
                 'k': 0
             }
-
+            if len(params['i'] == 0): continue
             new_articles.append(params)
 
         if len(new_articles) > 0:
@@ -316,7 +316,7 @@ class ESPNStoryFetcher(StoryFetcher):
                 description = headline['description']
                 byline = headline[
                     'byline'] if 'byline' in headline else ""
-                images = map(lambda _: _['url'], headline['images'])
+                images = map(lambda _: _['url']['href'], headline['images'])
                 published = headline['published']
 
                 article_dicts.append({

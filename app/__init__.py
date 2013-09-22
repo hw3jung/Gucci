@@ -2,21 +2,25 @@ from flask import Flask
 from flask import render_template, url_for
 from flask import request
 from bson import ObjectId
-from load_stories import get_latest_stories
+from load_stories import get_latest_stories, get_stories_since
 import json
+import os
 
+os.environ['PYTHONUNBUFFERED'] = '1'
 app = Flask(__name__)
+app.config['DEBUG'] = True
 
 @app.route('/')
 def feed(name=None):
-    return render_template('feed.html')
+    home_stories = get_latest_stories(['sports', 'headlines', 'celebrity'], 0)
+    return render_template('feed.html', home_stories=home_stories, num_articles=50)
 
-@app.route('/api/latest', methods=['POST'])
+@app.route('/api/stories/since', methods=['POST'])
 def get_lastest_stories():
-	category = request.form['category']
-	offset 	 = request.form['offset']
-	limit 	 = request.form['limit']
+    since      = request.form.get('since')
+    categories = request.form.getlist('categories[]')
+    return json.dumps({'stories': get_stories_since(since, categories)})
 
-	articles = get_latest_stories(category, offset, limit)
 
-    return json.dumps(articles)
+if app.config['DEBUG'] and __name__ == '__main__':
+    app.run()    
