@@ -10,7 +10,7 @@ def article_mapper(article):
         'source'    : article['w'],
         'link'      : article['u'],
         'kik_count' : article['k'],
-        'images'    : article['i']
+        'images'    : article['i'],
     }
 
 def get_latest_stories(categories, offset, num_articles=30, sort=1):
@@ -21,7 +21,7 @@ def get_latest_stories(categories, offset, num_articles=30, sort=1):
 
     articles =  article_collection.find({
                     'c': {'$in': categories}
-                }).sort('d', sort).skip(offset).limit(num_articles)
+                }).sort('_id', sort).skip(offset).limit(num_articles)
 
     article_dicts = []
     for article in articles:
@@ -40,7 +40,7 @@ def get_stories_since(since_id, categories, num_articles=10, sort=1):
     articles =  article_collection.find({
                     '_id': {'$gt': ObjectId(since_id) },
                     'c'  : {'$in': categories}
-                }).sort('d', sort).limit(num_articles)
+                }).sort('_id', sort).limit(num_articles)
 
     article_dicts = []
     for article in articles:
@@ -59,7 +59,7 @@ def get_stories_before(before_id, categories, num_articles=10, sort=-1):
     articles =  article_collection.find({
                     '_id': {'$lt': ObjectId(before_id) },
                     'c'  : {'$in': categories}
-                }).sort('d', sort).limit(num_articles)
+                }).sort('_id', sort).limit(num_articles)
 
     article_dicts = []
     for article in articles:

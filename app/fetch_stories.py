@@ -115,7 +115,6 @@ class NYTStoryFetcher(StoryFetcher):
         api_uri = self.BASE_URI + self.BASE_API_KEY
 
         max_offset = sys.maxsize
-
         offset = 0
         while offset <= max_offset:
             next_api_uri = api_uri + '&offset=' + str(offset)
@@ -276,7 +275,7 @@ class ESPNStoryFetcher(StoryFetcher):
         self.log('%d potentially new articles' % (len(articles)))
         new_articles = []
         for article in articles:
-            if article_collection.find({'u': article['link']}).count() > 0:
+            if article_collection.find({'u': article['link']['href']}).count() > 0:
                 continue
 
             published_date = article['published'][:10]

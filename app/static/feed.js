@@ -2,6 +2,30 @@ $(document).ready(function() {
   Function.prototype.bindTo = function(obj) {
     return _.bind(this, obj);
   };
+
+  Array.prototype.shuffle = function () {
+    var array = this;
+    var currentIndex = array.length
+      , temporaryValue
+      , randomIndex
+      ;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }; 
+
   $(window).scroll(function() {  
     if($(window).scrollTop() == $(document).height() - $(window).height()) { 
       if(window.CurrentFeedView) {
@@ -26,6 +50,10 @@ $(document).ready(function() {
         this.latestStoryID = null;
         this.oldestStoryID = null;
       }
+      console.log(
+        this.latestStoryID,
+        this.oldestStoryID
+      );
       this.setElement(args.el);
       this.startTimeout();     
     },
@@ -33,13 +61,14 @@ $(document).ready(function() {
 
     },          
     render: function() {
-      _.each(this.stories, _.bind(function(storyData) {
+      this.stories.shuffle();
+      _.each(this.stories, function(storyData) {
         if(storyData.images.length > 0) {
           this.storieViews.push(
             this.appendStory(storyData)
           );
         }
-      }, this));
+      }.bindTo(this));
       return this;
     },
     startTimeout: function() {
@@ -50,16 +79,17 @@ $(document).ready(function() {
     },
     checkForNewStories: function() {
       var onComplete = function(data) {
+        if(data.stories.length > 0) {
+          this.latestStoryID = data.stories[
+            data.stories.length - 1
+          ].id;
+        };
+        data.stories.shuffle();
         _.each(data.stories, function(story) {
           if(story.images.length > 0) {
             this.prependStory(story);
           }
         }.bindTo(this));
-        if(data.stories.length > 0) {
-          this.latestStoryID = data.stories[
-            data.stories.length - 1
-          ].id;
-        }
         this.startTimeout();
       }.bindTo(this);
 
@@ -78,18 +108,19 @@ $(document).ready(function() {
       this.loadingOlderStories = true;
       var onComplete = function(data) {
         this.loadingOlderStories = false;
-        _.each(data.stories, function(story) {
-          if(story.images.length > 0) {
-            this.appendStory(story);
-          }          
-        }.bindTo(this));
         if(data.stories.length > 0) {
           this.oldestStoryID = data.stories[
             data.stories.length - 1
           ].id;
         } else {
           this.noMoreOlderStories = true;
-        }
+        }        
+        data.stories.shuffle();
+        _.each(data.stories, function(story) {
+          if(story.images.length > 0) {
+            this.appendStory(story);
+          }          
+        }.bindTo(this));
         this.startTimeout();
       }.bindTo(this);
 
@@ -131,9 +162,9 @@ $(document).ready(function() {
     tagName: 'li',
     tpl: _.template($('#story-template').html()),
     SOURCE_LOGOS: {
-      'tmz': 'http://upload.wikimedia.org/wikipedia/commons/5/54/TMZLogo.svg',
-      'nyt': 'http://graphics8.nytimes.com/images/misc/nytlogo152x23.gif',
-      'bbc': 'https://2.gravatar.com/avatar/e06c65f9e89d28025c47b6046f701c13?d=https%3A%2F%2Fidenticons.github.com%2F1b38f1ee5d9820f661140aeecbae649a.png&s=400',
+      'tmz' : 'http://upload.wikimedia.org/wikipedia/commons/5/54/TMZLogo.svg',
+      'nyt' : 'http://graphics8.nytimes.com/images/misc/nytlogo152x23.gif',
+      'bbc' : 'https://2.gravatar.com/avatar/e06c65f9e89d28025c47b6046f701c13?d=https%3A%2F%2Fidenticons.github.com%2F1b38f1ee5d9820f661140aeecbae649a.png&s=400',
       'espn': 'http://static-p-a.comcast.net/api/assets/cimed-20120712/espn.png'
     },
     initialize: function(args) {
