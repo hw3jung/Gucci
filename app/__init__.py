@@ -15,5 +15,5 @@ def feed(name=None):
 @app.route('/api/stories/since', methods=['POST'])
 def get_lastest_stories():
     since      = request.form.get('since')
-    categories = request.form.getlist('categories[]')
+    categories = request.form.getlist('categories[]') 
     return json.dumps({'stories': get_stories_since(since, categories)})
