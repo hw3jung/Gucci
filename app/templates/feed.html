@@ -69,12 +69,14 @@
     <!-- feed template -->
     <script id="story-template" type="text/html"> 
       <div class="story" data-story-id="<%= story.id %>">
-        <img class="image" src="<%= story.images[0] %>" />
-        <img class="source" src="<%= sourceLogo %>" />
+        <div class="title">
+          <%= story.title %>
+        </div>      
+        <div class="image-container">
+          <img class="image" src="<%= story.images[0] %>" />  
+          <img class="source" src="<%= sourceLogo %>" />
+        </div>
         <div class="s-details">
-          <div class="title">
-            <%= story.title %>
-          </div>
           <div class="kik-stats">
             <div class="app-button right kik-it">
               <img class="kik-img" src="{{ url_for('static', filename='kik_it2.png') }}"/>
