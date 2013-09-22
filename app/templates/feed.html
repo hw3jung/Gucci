@@ -54,14 +54,13 @@
     
     <!-- put your pages here -->
     <script src="http://cdn.kik.com/cards/0/cards.js"></script>
-    <script src="http://zeptojs.com/zepto.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://cdn.kik.com/app/1/app.js"></script>
     <script src="http://underscorejs.org/underscore-min.js"></script>
     <script src="http://backbonejs.org/backbone-min.js"></script>
     <script src="http://code.kik.com/swapper/1.0.min.js"></script>
     <script src="{{ url_for('static', filename='feed.js') }}"></script>
-
-
+    <script src="{{ url_for('static', filename='PullToRefresh.js') }}"></script>
     <!-- feed template -->
     <script id="story-template" type="text/html"> 
       <li>

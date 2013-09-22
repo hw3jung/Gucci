@@ -57,16 +57,13 @@ body {
   box-sizing: border-box; }
 
 .app-topbar {
-  background-color: rgba(255, 255, 255, 0.7);
-  color: black;
-  font-weight: normal;
-  border: 1px solid #EDEDED;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
   -webkit-box-shadow: 0 0 16px #ededed !important;
   -moz-box-shadow: 0 0 16px #ededed !important;
   box-shadow: 0 0 16px #ededed !important;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: black;
+  font-weight: normal;
+  border: 1px solid #EDEDED;
   width: 100%;
   margin: 0px; }
 

@@ -95,7 +95,7 @@ class ESPNStoryFetcher(StoryFetcher):
     API_KEY    = 'dwk3nu6pd75r5ewrhp6kggsv'
     API_SECRET = 'A9ctQPd8xsBdgzkWjw45nrrs'
     BASE_URI   = 'http://api.espn.com/v1'
-    METHODS    = ['/sports/news/headlines', '/sports/news/headlines/top']
+    METHODS    = ('/sports/news/headlines', '/sports/news/headlines/top',)
     current_method = 0
     def fetch_stories(self):
         uri = '%s%s?apikey=%s' % \
