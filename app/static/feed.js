@@ -146,9 +146,9 @@ $(document).ready(function() {
     }, 
     goToLink: function () {
       if (this.story.link.href) {
-        window.location = this.story.link.href;
+        cards.open(this.story.link.href); // opens in default web browser
       } else {
-        window.location = this.story.link;
+        cards.open(this.story.link);
       }
     },
     render: function() {
@@ -220,6 +220,6 @@ $(document).ready(function() {
       // cards.kik.message is exactly what was provided in kik.send
       // redirect user to news link
 
-      window.location = cards.kik.message.link;
+      cards.open(cards.kik.message.link);
   }
 });
