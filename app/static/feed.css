@@ -105,7 +105,7 @@ body {
     font-size: 18px;
     color: #4D4D4D;
     font-weight: bold;
-    padding: 5px 0px;
+    padding: 5px 5px;
     width: 93%;
     margin: 0px auto;
     -webkit-border-radius: 2px;
@@ -114,7 +114,7 @@ body {
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-    background: #fff;
+    background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
     border: 1px solid #EDEDED; }
   .story .s-details {
     background-color: white;

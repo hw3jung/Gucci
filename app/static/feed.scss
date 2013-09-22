@@ -57,12 +57,12 @@ body {
     font-size:18px;
     color: #4D4D4D;
     font-weight: bold;
-    padding: 5px 0px;
+    padding: 5px 5px;
     width: $details-width;
     margin: 0px auto;
     @include border-radius(2px);
     @include box-shadow(0 1px 4px rgba(0,0,0,0.3));     
-    background: #fff; 
+    background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
     border: 1px solid #EDEDED;
    } 
 
