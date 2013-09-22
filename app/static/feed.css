@@ -112,4 +112,9 @@ body {
         padding-left: 10px;
         border-left: 1px solid #EDEDED;
         font-weight: bold;
-        font-size: 20px; }
+        font-size: 20px;
+        background: black; }
+      .story .s-details .kik-stats .kik-img {
+        background-image: url(kik_it.png);
+        width: 30px;
+        height: 30px; }

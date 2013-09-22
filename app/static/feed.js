@@ -145,7 +145,11 @@ $(document).ready(function() {
       'click .kik-it' : 'kikIt',
     }, 
     goToLink: function () {
-      window.location.href = this.story.link;
+      if (this.story.link.href) {
+        window.location = this.story.link.href;
+      } else {
+        window.location = this.story.link;
+      }
     },
     render: function() {
       var sourceLogo = '';
@@ -159,7 +163,15 @@ $(document).ready(function() {
       return this;
     },
     kikIt: function() {
-
+      // send a message
+      cards.kik.send({
+          title     : 'Message title'        ,
+          text      : 'Message body'         ,
+          pic       : this.story.images[0]   , // optional
+          big       : true                   , // optional
+          noForward : false                  , // optional
+          data      : { 'id' : this.story.id } // optional
+      });
     }
   });
 

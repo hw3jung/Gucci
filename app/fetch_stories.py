@@ -51,7 +51,13 @@ class NYTStoryFetcher(StoryFetcher):
     MAX_CALLS_PER_DAY = 9900
     BASE_URI = 'http://api.nytimes.com/svc/mostpopular/v2/mostviewed/' \
         'all-sections/1.json?api-key='
-    BASE_API_KEY = 'dfd14899be93a4708e8d50825960d19e:3:68150475'
+    BASE_API_KEY = 'ac09cbf9b6e9b29b16e0645e502f2008:7:68161152'
+
+    # poll interval override; only for nyt
+    # This is calculated assuming there are at most 1500 articles in
+    # the results to iterate through at each fetch interval
+    # 1300 seconds ~ 21 minutes
+    POLL_INTERVAL = 1300
 
     def store_stories(self, articles):
         client = get_mongo_client()
@@ -278,7 +284,7 @@ class ESPNStoryFetcher(StoryFetcher):
                 time.mktime(time.strptime(published_date, '%Y-%m-%d')))
 
             params = {
-                'u': article['link'],
+                'u': article['link']['href'],
                 'c': 'sports',
                 't': article['title'],
                 's': article['description'],
@@ -350,17 +356,16 @@ class USATodayStoryFetcher(StoryFetcher):
         response = urllib2.urlopen(req)
         response = json.loads(response.read())
 
-        #
-
 
 def main():
+    # deprecated
+    # bbc = BBCStoryFetcher() # bad image quality
+
     nyt = NYTStoryFetcher()
-    bbc = BBCStoryFetcher()
     tmz = TMZStoryFetcher()
     espn = ESPNStoryFetcher()
 
     nyt.start()
-    bbc.start()
     tmz.start()
     espn.start()
 
