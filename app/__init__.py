@@ -12,4 +12,8 @@ def feed():
     home_stories = get_latest_stories(['sports', 'headlines', 'celebrity'], 0)
     return render_template('feed.html', home_stories=home_stories, num_articles=50)
 
-
+@app.route('/api/stories/since', methods=['POST'])
+def get_lastest_stories():
+    since      = request.form.get('since')
+    categories = request.form.getlist('categories[]') 
+    return json.dumps({'stories': get_stories_since(since, categories)})
