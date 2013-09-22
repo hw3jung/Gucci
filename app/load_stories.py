@@ -38,7 +38,8 @@ def get_stories_since(since_id, categories, num_articles=10, sort=1):
     article_collection = db['articles']
 
     articles =  article_collection.find({
-                    '_id': {'$gt': ObjectId(since_id) }
+                    '_id': {'$gt': ObjectId(since_id) },
+                    'c'  : {'$in': categories}
                 }).sort('_id', sort).limit(num_articles)
 
     article_dicts = []
@@ -56,7 +57,8 @@ def get_stories_before(before_id, categories, num_articles=10, sort=-1):
     article_collection = db['articles']
 
     articles =  article_collection.find({
-                    '_id': {'$lt': ObjectId(before_id) }
+                    '_id': {'$lt': ObjectId(before_id) },
+                    'c'  : {'$in': categories}
                 }).sort('_id', sort).limit(num_articles)
 
     article_dicts = []
