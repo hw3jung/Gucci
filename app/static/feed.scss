@@ -28,7 +28,7 @@ body {
   background: #fff; 
   text-align: center;
   border: 1px solid #EDEDED;
-  @include border-radius(5px);
+  @include border-radius(3px);
   @include box-shadow(0 1px 4px rgba(0,0,0,.3)); 
 
   .image {

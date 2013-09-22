@@ -63,11 +63,12 @@
     <script type="text/javascript">
       window.PAGE_PARAMS = {
         'homeStories': {{ home_stories|tojson|safe }}
-      }
+      };
+      window.CurrentFeedView = null;
     </script>
     <!-- feed template -->
     <script id="story-template" type="text/html"> 
-      <div class="story">
+      <div class="story" data-story-id="<%= story.id %>">
         <img class="image" src="<%= story.images[0] %>" />
         <div class="s-details">
           <div class="title">

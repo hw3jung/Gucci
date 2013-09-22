@@ -2,11 +2,19 @@ $(document).ready(function() {
   Function.prototype.bindTo = function(obj) {
     return _.bind(this, obj);
   };
+  $(window).scroll(function() {  
+    if($(window).scrollTop() == $(document).height() - $(window).height()) { 
+      if(window.CurrentFeedView) {
+        window.CurrentFeedView.loadOlderStories();
+      } 
+    }  
+  });  
 
   var FeedView = Backbone.View.extend({
     tagName: 'ul',
-    pollInterval: 10000,
+    pollInterval: 20000,
     feedCategories: [],
+    loadingOlderStories: false,
     initialize: function(args) {
       this.stories       = args.initialStories;
       this.storieViews   = [];
@@ -18,7 +26,7 @@ $(document).ready(function() {
         this.oldestStoryID = null;
       }
       this.setElement(args.el);
-      this.startTimeout();
+      this.startTimeout();     
     },
     events: {
 
@@ -27,12 +35,11 @@ $(document).ready(function() {
       _.each(this.stories, _.bind(function(storyData) {
         if(storyData.images.length > 0) {
           this.storieViews.push(
-            this.appendStory({
-              story: storyData
-            })
+            this.appendStory(storyData)
           );
         }
       }, this));
+      return this;
     },
     startTimeout: function() {
       this.pollTimeoutID = setTimeout(
@@ -42,12 +49,11 @@ $(document).ready(function() {
     },
     checkForNewStories: function() {
       var onComplete = function(data) {
-        var prependStory = this.prependStory;
         _.each(data.stories, function(story) {
           if(story.images.length > 0) {
-            prependStory(story);
+            this.prependStory(story);
           }
-        });
+        }.bindTo(this));
         if(data.stories.length > 0) {
           this.latestStoryID = data.stories[
             data.stories.length - 1
@@ -60,17 +66,21 @@ $(document).ready(function() {
         type: 'POST',
         dataType: 'json',
         url: '/api/stories/since',
-        data: { 'since': this.oldestStoryID, 'categories[]': this.feedCategories },
+        data: { 'since': this.latestStoryID, 'categories[]': this.feedCategories },
         success: onComplete,
         error: this.startTimeout.bindTo(this)
       });
     },
     loadOlderStories: function () {
+      if(this.oadingOlderStories) return;
+      this.loadingOlderStories = true;
       var onComplete = function(data) {
-        var appendStory = this.appendStory;
-        _.each(data.stories, function() {
-          appendStory(story);
-        });
+        this.loadingOlderStories = false;
+        _.each(data.stories, function(story) {
+          if(story.images.length > 0) {
+            this.appendStory(story);
+          }          
+        }.bindTo(this));
         if(data.stories.length > 0) {
           this.oldestStoryID = data.stories[
             data.stories.length - 1
@@ -79,28 +89,33 @@ $(document).ready(function() {
         this.startTimeout();
       }.bindTo(this);
 
+      var onError = function () {
+        this.loadingOlderStories = false;
+        this.startTimeout();
+      }.bindTo(this);
+
       $.ajax({
         type: 'POST',
         dataType: 'json',
         url: '/api/stories/before',
-        data: { 'since': this.oldestStoryID, 'categories': this.feedCategories },
+        data: { 'before': this.oldestStoryID, 'categories': this.feedCategories },
         success: onComplete,
-        error: this.startTimeout.bindTo(this)
+        error: onError
       });      
     },
     appendStory: function(storyData) {  
-      var view = new StoryView(storyData);
+      var view = new StoryView({ story: storyData });
       $(this.el).append(view.render().el);
       return view;
     },
     prependStory: function(storyData) {  
-      var view = new StoryView(storyData);
+      var view = new StoryView({ story: storyData });
       $(this.el).prepend(view.render().el);
       return view;
     },
     killPollTimeout: function () {
       clearTimeout(this.pollTimeoutID);
-    }          
+    }         
   });
 
   var HomeFeedView      = FeedView.extend({ feedCategories: ['sports', 'politics', 'celebrity'] });
@@ -126,7 +141,7 @@ $(document).ready(function() {
       'click .kik-it' : 'kikIt',
     }, 
     goToLink: function () {
-      window.location = this.story.link;
+      window.location.href = this.story.link;
     },
     render: function() {
       var sourceLogo = '';
@@ -137,7 +152,6 @@ $(document).ready(function() {
         story: this.story,
         sourceLogo: sourceLogo
       }));
-
       return this;
     },
     kikIt: function() {
@@ -146,28 +160,28 @@ $(document).ready(function() {
   });
 
   App.populator('home', function (page) {
-    new HomeFeedView({
+    window.CurrentFeedView = new HomeFeedView({
       el: $(page).find('.feed'),
       initialStories: window.PAGE_PARAMS.homeStories
     }).render();
   });
 
   App.populator('sports', function (page) {
-    new SportsFeedView({
+    window.CurrentFeedView = new SportsFeedView({
       el: $(page).find('.feed'),
       initialStories: []
     }).render();
   });
 
   App.populator('politics', function (page) {
-    new PoliticsFeedView({
+    window.CurrentFeedView = new PoliticsFeedView({
       el: $(page).find('.feed'),
       initialStories: []
     }).render();
   });                
 
   App.populator('celebrity', function (page) {
-    new CelebrityFeedView({
+    window.CurrentFeedView = new CelebrityFeedView({
       el: $(page).find('.feed'),
       initialStories: []
     }).render();
