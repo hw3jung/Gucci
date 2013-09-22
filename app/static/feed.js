@@ -209,7 +209,7 @@ $(document).ready(function() {
             pic       : this.story.images[0]   , // optional
             big       : true                   , // optional
             noForward : false                  , // optional
-            data      : { 'link' : link } // optional
+            data      : { 'link' : link, 'story_id' : this.story.id } // optional
         });
       }
     }
@@ -250,6 +250,13 @@ $(document).ready(function() {
       // your card was launched from a message
       // cards.kik.message is exactly what was provided in kik.send
       // redirect user to news link
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/api/story/kik',
+        data: { 'story_id':  cards.kik.message.story_id }
+      });
 
       cards.open(cards.kik.message.link);
   }

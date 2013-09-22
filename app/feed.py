@@ -70,7 +70,7 @@ def main(args):
                (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
     
     ### Since this is an example, we'll clean up after ourselves.
-
+    
     db.drop_collection('songs')
 
     ### Only close the connection when your app is terminating
