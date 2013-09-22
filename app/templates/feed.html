@@ -70,14 +70,14 @@
     <script id="story-template" type="text/html"> 
       <div class="story" data-story-id="<%= story.id %>">
         <img class="image" src="<%= story.images[0] %>" />
+        <img class="source" src="<%= sourceLogo %>" />
         <div class="s-details">
           <div class="title">
             <%= story.title %>
           </div>
           <div class="kik-stats">
-            <img class="left source" src="<%= sourceLogo %>" />
             <div class="app-button right kik-it">
-              <img class="kik-img" src="{{ url_for('static', filename='kik_it.png') }}"/>
+              <img class="kik-img" src="{{ url_for('static', filename='kik_it2.png') }}"/>
             </div>
           </div>
         </div>         
