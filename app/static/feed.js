@@ -2,7 +2,7 @@ $(document).ready(function() {
 
   var FeedView = Backbone.View.extend({
     tagName: 'ul',
-    pollInterval: 30000,
+    pollInterval: 2000,
     feedCategories: [],
     initialize: function(args) {
       this.stories       = args.initialStories;
