@@ -13,7 +13,7 @@ app.config['DEBUG'] = True
 def feed():
     home_stories =  get_latest_stories(
                         sort=-1,
-                        num_articles=20
+                        num_articles=50
                     )
     return render_template('feed.html', home_stories=home_stories)
 

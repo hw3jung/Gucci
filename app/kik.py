@@ -6,7 +6,6 @@ def increment_kik_count(article_id):
 
     try:
         client = get_mongo_client()
-        # load data from mongo, default 30 articles at a time
         db = client.get_default_database()
         article_collection = db['articles']
 
