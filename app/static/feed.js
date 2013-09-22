@@ -153,7 +153,7 @@ $(document).ready(function() {
     }         
   });
 
-  var HomeFeedView      = FeedView.extend({ feedCategories: ['sports', 'politics', 'celebrity'] });
+  var HomeFeedView      = FeedView.extend({ feedCategories: [] });
   var SportsFeedView    = FeedView.extend({ feedCategories: ['sports'] });
   var PoliticsFeedView  = FeedView.extend({ feedCategories: ['politics'] });
   var CelebrityFeedView = FeedView.extend({ feedCategories: ['celebrity'] });

@@ -13,15 +13,20 @@ def article_mapper(article):
         'images'    : article['i'],
     }
 
-def get_latest_stories(categories, offset, num_articles=30, sort=1):
+def get_latest_stories(categories=None, offset=0, num_articles=30, sort=1):
     client = get_mongo_client()
-    # load data from mongo, default 30 articles at a time
-    db = client.get_default_database()
+    db     = client.get_default_database()
     article_collection = db['articles']
 
-    articles =  article_collection.find({
-                    'c': {'$in': categories}
-                }).sort('_id', sort).skip(offset).limit(num_articles)
+    query = {}
+    if categories:
+        query['c'] = {'$in': categories}
+
+    articles =  article_collection \
+                            .find(query) \
+                            .sort('_id', sort)\
+                            .skip(offset)\
+                            .limit(num_articles)
 
     article_dicts = []
     for article in articles:
@@ -30,17 +35,19 @@ def get_latest_stories(categories, offset, num_articles=30, sort=1):
     close_mongo_client(client)
     return article_dicts
 
-def get_stories_since(since_id, categories, num_articles=10, sort=1):
+def get_stories_since(since_id, categories=None, num_articles=10, sort=1):
     client = get_mongo_client()
-    
-    # load data from mongo, default 10 articles at a time
-    db = client.get_default_database()
+    db     = client.get_default_database()
     article_collection = db['articles']
 
-    articles =  article_collection.find({
-                    '_id': {'$gt': ObjectId(since_id) },
-                    'c'  : {'$in': categories}
-                }).sort('_id', sort).limit(num_articles)
+    query = { '_id': {'$gt': ObjectId(since_id) } }
+    if categories:
+        query['c'] = {'$in': categories}
+
+    articles =  article_collection \
+                            .find(query) \
+                            .sort('_id', sort) \
+                            .limit(num_articles) 
 
     article_dicts = []
     for article in articles:
@@ -49,17 +56,21 @@ def get_stories_since(since_id, categories, num_articles=10, sort=1):
     close_mongo_client(client)
     return article_dicts
 
-def get_stories_before(before_id, categories, num_articles=10, sort=-1):
+def get_stories_before(before_id, categories=None, num_articles=10, sort=-1):
     client = get_mongo_client()
     
     # load data from mongo, default 10 articles at a time
     db = client.get_default_database()
     article_collection = db['articles']
 
-    articles =  article_collection.find({
-                    '_id': {'$lt': ObjectId(before_id) },
-                    'c'  : {'$in': categories}
-                }).sort('_id', sort).limit(num_articles)
+    query = { '_id': {'$lt': ObjectId(before_id) } }
+    if categories:
+        query['c'] = {'$in': categories}
+
+    articles =  article_collection \
+                            .find(query) \
+                            .sort('_id', sort) \
+                            .limit(num_articles) 
 
     article_dicts = []
     for article in articles:

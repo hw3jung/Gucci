@@ -10,17 +10,23 @@ app.config['DEBUG'] = True
 
 @app.route('/')
 def feed():
-    home_stories = get_latest_stories(['sports', 'headlines', 'celebrity'], 0, sort=-1, num_articles=20)
+    home_stories =  get_latest_stories(
+                        sort=-1,
+                        num_articles=20
+                    )
     return render_template('feed.html', home_stories=home_stories)
 
 @app.route('/api/stories/since', methods=['POST'])
 def get_lastest_stories():
     since      = request.form.get('since')
     categories = request.form.getlist('categories[]')
-    return json.dumps({'stories': get_stories_since(since, categories)})
+    return json.dumps({'stories': get_stories_since(since, categories=categories)})
 
 @app.route('/api/stories/before', methods=['POST'])
 def get_older_stories():
     before     = request.form.get('before')
     categories = request.form.getlist('categories[]')
-    return json.dumps({'stories': get_stories_before(before, categories)})
+    return json.dumps({'stories': get_stories_before(before, categories=categories)})
+
+if __name__ == '__main__' and app.config['DEBUG'] and False:
+    app.run()
