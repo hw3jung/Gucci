@@ -15,6 +15,7 @@ $(document).ready(function() {
     pollInterval: 20000,
     feedCategories: [],
     loadingOlderStories: false,
+    noMoreOlderStories: false,
     initialize: function(args) {
       this.stories       = args.initialStories;
       this.storieViews   = [];
@@ -72,7 +73,8 @@ $(document).ready(function() {
       });
     },
     loadOlderStories: function () {
-      if(this.oadingOlderStories) return;
+      if(this.loadingOlderStories || this.noMoreOlderStories) return;
+      
       this.loadingOlderStories = true;
       var onComplete = function(data) {
         this.loadingOlderStories = false;
@@ -85,6 +87,8 @@ $(document).ready(function() {
           this.oldestStoryID = data.stories[
             data.stories.length - 1
           ].id;
+        } else {
+          this.noMoreOlderStories = true;
         }
         this.startTimeout();
       }.bindTo(this);
