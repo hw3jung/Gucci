@@ -97,6 +97,9 @@ $(document).ready(function() {
       var view = new StoryView(storyData);
       $(this.el).prepend(view.render().el);
       return view;
+    },
+    killPollTimeout: function () {
+      clearTimeout(this.pollTimeoutID);
     }          
   });
 
@@ -118,9 +121,9 @@ $(document).ready(function() {
       this.story = args.story;
     },
     events: {
-      'tap .image'  : 'goToLink',
-      'tap .title'  : 'goToLink',
-      'tap .kik-it' : 'kikIt',
+      'click .image'  : 'goToLink',
+      'click .title'  : 'goToLink',
+      'click .kik-it' : 'kikIt',
     }, 
     goToLink: function () {
       window.location = this.story.link;
