@@ -60,24 +60,21 @@
     <script src="http://backbonejs.org/backbone-min.js"></script>
     <script src="http://code.kik.com/swapper/1.0.min.js"></script>
     <script src="{{ url_for('static', filename='feed.js') }}"></script>
-    <script src="{{ url_for('static', filename='PullToRefresh.js') }}"></script>
     <!-- feed template -->
     <script id="story-template" type="text/html"> 
-      <li>
-        <div class="story">
-          <img class="image" src="<%= images[0] %>" />
-          <div class="s-details">
-            <div class="title">
-              <%= title %>
+      <div class="story">
+        <img class="image" src="<%= images[0] %>" />
+        <div class="s-details">
+          <div class="title">
+            <%= title %>
+          </div>
+          <div class="kik-stats">
+            <img class="left source" src="http://graphics8.nytimes.com/images/misc/nytlogo152x23.gif" />
+            <div class="app-button right kik-it">Kik it</div>
             </div>
-            <div class="kik-stats">
-              <img class="left source" src="http://graphics8.nytimes.com/images/misc/nytlogo152x23.gif" />
-              <div class="app-button right kik-it">Kik it</div>
-              </div>
-            </div>             
-          </div>         
-        </div>
-      </li>
+          </div>             
+        </div>         
+      </div>
     </script>
   </body>
 </html>

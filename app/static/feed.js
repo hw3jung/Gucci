@@ -1,11 +1,12 @@
 $(document).ready(function() {
 
   var FeedView = Backbone.View.extend({
+    tagName: 'ul',
     pollInterval: 30000,
     feedCategories: [],
     initialize: function(args) {
-      this.stories     = args.initialStories;
-      this.storieViews = [];
+      this.stories       = args.initialStories;
+      this.storieViews   = [];
       this.latestStoryID = null;
       this.oldestStoryID = null;
       this.setElement(args.el);
@@ -91,6 +92,7 @@ $(document).ready(function() {
   var CelebrityFeedView = FeedView.extend({ feedCategories: ['celebrity'] });        
 
   var StoryView = Backbone.View.extend({
+    tagName: 'li',
     tpl: _.template($('#story-template').html()),
     SOURCE_LOGOS: {
       'tmz': 'http://upload.wikimedia.org/wikipedia/commons/5/54/TMZLogo.svg',
@@ -172,7 +174,4 @@ $(document).ready(function() {
   });  
 
   App.load('home');
-  $('.app-content').pull_to_refresh({
-
-  });
 });

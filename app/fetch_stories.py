@@ -100,9 +100,9 @@ class ESPNStoryFetcher(StoryFetcher):
     def fetch_stories(self):
         uri = '%s%s?apikey=%s' % \
               (self.BASE_URI, self.METHODS[self.current_method], self.API_KEY,)
-        req      = urllib2.Request(uri)
-        response = urllib2.urlopen(req)
-        response = json.loads(response.read())
+        req       = urllib2.Request(uri)
+        response  = urllib2.urlopen(req)
+        response  = json.loads(response.read())
         headlines = response['headlines']
         for headline in headlines:
             try:
