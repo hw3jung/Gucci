@@ -4,10 +4,8 @@ from flask import request
 from bson import ObjectId
 from load_stories import get_latest_stories, get_stories_since
 import json
-import os
 
 app = Flask(__name__)
-#app.config['DEBUG'] = True
 
 @app.route('/')
 def feed(name=None):
@@ -19,8 +17,3 @@ def get_lastest_stories():
     since      = request.form.get('since')
     categories = request.form.getlist('categories[]')
     return json.dumps({'stories': get_stories_since(since, categories)})
-
-
-if app.config['DEBUG'] and __name__ == '__main__':
-    os.environ['PYTHONUNBUFFERED'] = '1'
-    app.run()    
