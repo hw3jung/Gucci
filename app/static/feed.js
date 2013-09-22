@@ -125,7 +125,7 @@ $(document).ready(function() {
   var HomeFeedView      = FeedView.extend({ feedCategories: ['sports', 'politics', 'celebrity'] });
   var SportsFeedView    = FeedView.extend({ feedCategories: ['sports'] });
   var PoliticsFeedView  = FeedView.extend({ feedCategories: ['politics'] });
-  var CelebrityFeedView = FeedView.extend({ feedCategories: ['celebrity'] });        
+  var CelebrityFeedView = FeedView.extend({ feedCategories: ['celebrity'] });
 
   var StoryView = Backbone.View.extend({
     tagName: 'li',
@@ -163,15 +163,24 @@ $(document).ready(function() {
       return this;
     },
     kikIt: function() {
-      // send a message
-      cards.kik.send({
-          title     : 'Message title'        ,
-          text      : 'Message body'         ,
-          pic       : this.story.images[0]   , // optional
-          big       : true                   , // optional
-          noForward : false                  , // optional
-          data      : { 'id' : this.story.id } // optional
-      });
+      if (cards.kik) {
+        var link = "";
+        if (this.story.link.href) {
+          link = this.story.link.href;
+        } else {
+          link = this.story.link;
+        }
+
+        // send a message
+        cards.kik.send({
+            title     : this.story.title       ,
+            text      : 'Hey, here is an interesting article',
+            pic       : this.story.images[0]   , // optional
+            big       : true                   , // optional
+            noForward : false                  , // optional
+            data      : { 'link' : link } // optional
+        });
+      }
     }
   });
 
@@ -201,7 +210,16 @@ $(document).ready(function() {
       el: $(page).find('.feed'),
       initialStories: []
     }).render();
-  });  
+  });
 
   App.load('home');
+
+  // receive a message
+  if (cards.kik && cards.kik.message) {
+      // your card was launched from a message
+      // cards.kik.message is exactly what was provided in kik.send
+      // redirect user to news link
+
+      window.location = cards.kik.message.link;
+  }
 });

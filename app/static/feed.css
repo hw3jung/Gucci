@@ -115,6 +115,4 @@ body {
         font-size: 20px;
         background: black; }
       .story .s-details .kik-stats .kik-img {
-        background-image: url(kik_it.png);
-        width: 30px;
-        height: 30px; }
+        width: 100px; }
