@@ -6,9 +6,8 @@ from load_stories import get_latest_stories, get_stories_since
 import json
 import os
 
-os.environ['PYTHONUNBUFFERED'] = '1'
 app = Flask(__name__)
-app.config['DEBUG'] = True
+#app.config['DEBUG'] = True
 
 @app.route('/')
 def feed(name=None):
@@ -23,4 +22,5 @@ def get_lastest_stories():
 
 
 if app.config['DEBUG'] and __name__ == '__main__':
+    os.environ['PYTHONUNBUFFERED'] = '1'
     app.run()    
