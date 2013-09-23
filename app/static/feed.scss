@@ -44,7 +44,6 @@ body {
 }
 
 .dropdown {
-  @include animation-duration(0.3s);
   display: none;
   padding: 5px 20px;
   margin: 0px auto;

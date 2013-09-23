@@ -251,16 +251,9 @@ $(document).ready(function() {
     },
   });
 
-  App.populator('home', function (page) {
-    window.CurrentFeedView = new HomeFeedView({
-      el: $(page).find('.feed'),
-      initialStories: window.PAGE_PARAMS.homeStories
-    }).render();
-    $(page).on('appShow', function () {
-      $(page).find('.dropdown').hide();  
-    });    
-    
-    $(page).find('.app-title').click(function() {
+
+  var SetPageEventHandlers = function (page) {
+    $(page).find('.app-title').on('touchstart', function() {
       var el = $(page).find('.dropdown');
       if(el.is(':visible')) {
         $(page).find('.dropdown').hide();  
@@ -268,6 +261,22 @@ $(document).ready(function() {
         $(page).find('.dropdown').show();
       }
     });
+
+    $(page).on('appShow', function () {
+      $(page).find('.dropdown').hide();  
+    }); 
+
+    $(page).find('.page-link').on('touchstart', function() {
+      App.load($(this).data('page'));
+    });
+  }
+
+  App.populator('home', function (page) {
+    window.CurrentFeedView = new HomeFeedView({
+      el: $(page).find('.feed'),
+      initialStories: window.PAGE_PARAMS.homeStories
+    }).render();     
+    SetPageEventHandlers(page);  
   });
 
   App.populator('sports', function (page) {
@@ -275,6 +284,7 @@ $(document).ready(function() {
       el: $(page).find('.feed'),
       initialStories: []
     }).render();
+    SetPageEventHandlers(page);
   });
 
   App.populator('politics', function (page) {
@@ -282,6 +292,7 @@ $(document).ready(function() {
       el: $(page).find('.feed'),
       initialStories: []
     }).render();
+    SetPageEventHandlers(page);
   });                
 
   App.populator('celebrity', function (page) {
@@ -289,6 +300,7 @@ $(document).ready(function() {
       el: $(page).find('.feed'),
       initialStories: []
     }).render();
+    SetPageEventHandlers(page);
   });
 
   App.populator('tech', function (page) {
@@ -296,6 +308,7 @@ $(document).ready(function() {
       el: $(page).find('.feed'),
       initialStories: []
     }).render();
+    SetPageEventHandlers(page);
   });
 
   App.load('home');

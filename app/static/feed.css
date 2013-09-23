@@ -88,10 +88,6 @@ body {
   padding: 55px 25px; }
 
 .dropdown {
-  -webkit-animation-duration: 0.3s;
-  -moz-animation-duration: 0.3s;
-  -ms-animation-duration: 0.3s;
-  -o-animation-duration: 0.3s;
   display: none;
   padding: 5px 20px;
   margin: 0px auto;
