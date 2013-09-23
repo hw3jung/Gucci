@@ -66,7 +66,7 @@ body {
   right: 3px;
   width: 70px;
   height: 50px;
-  margin-top: -10px;
+  margin-top: -4px;
   display: inline-block; }
 
 .menu-toggle-hr {
@@ -100,6 +100,8 @@ body {
     margin: 0px auto;
     text-align: center;
     float: none !important; }
+  .app-topbar .app-button[data-back] {
+    padding-right: 3px !important; }
 
 .app-content {
   background: #f1f1f1 url(//mobile.gannett-cdn.com/static/usat-mobile-static-1.0.5/images/texture1x.png) repeat top left;
@@ -158,7 +160,6 @@ body {
       top: 10px;
       right: 10px; }
   .story .title {
-    background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
     font-size: 22px;
     color: #4D4D4D;
     padding: 10px 10px;
@@ -173,7 +174,7 @@ body {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
+    background: #fff;
     border: 1px solid #EDEDED;
     opacity: 0.9; }
   .story .s-details {

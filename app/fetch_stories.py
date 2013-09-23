@@ -23,7 +23,10 @@ def close_mongo_client(client):
 
 class StoryFetcher(threading.Thread):
     MAX_CALLS_PER_DAY = 9900
-    POLL_INTERVAL = max(((24 * 60 * 60) / MAX_CALLS_PER_DAY), 30)
+
+    @property
+    def poll_interval(self):
+        return max(((24 * 60 * 60) / self.MAX_CALLS_PER_DAY), 30)
 
     def __init__(self, *args, **kwargs):
         threading.Thread.__init__(self)
@@ -41,7 +44,8 @@ class StoryFetcher(threading.Thread):
                 self.fetch_stories()
             except Exception as e:
                 self.log(str(e))
-            time.sleep(self.POLL_INTERVAL)
+
+            time.sleep(self.poll_interval)
 
 '''
     NYT Most Popular API Docs:
@@ -57,8 +61,10 @@ class NYTStoryFetcher(StoryFetcher):
     # This is calculated assuming there are at most 1500 articles in
     # the results to iterate through at each fetch interval
     # 1300 seconds ~ 21 minutes
-    POLL_INTERVAL = 1300
-
+    @property
+    def poll_interval(self):
+        return 1300;
+    
     def store_stories(self, articles):
         client = get_mongo_client()
         db = client.get_default_database()
@@ -341,10 +347,10 @@ class ESPNStoryFetcher(StoryFetcher):
 
 
 class USATodayStoryFetcher(StoryFetcher):
-    MAX_CALLS_PER_DAY = 900
+    MAX_CALLS_PER_DAY = 450
     API_KEYS_DICT = {
-        'articles': '7eh2cqt7pncj7hjqxm8xtjha',
-        'breaking': 'tmezyxpqqvyx5n8a88xrjnzn'
+        'articles': '75n2e9rcmkz73c2td5mrs5pa',
+        'breaking': 'ft3nuxmpwx53caz3buptba66'
     }
 
     BASE_URI = 'http://api.usatoday.com/open/articles/mobile/topnews'
@@ -426,7 +432,7 @@ class USATodayStoryFetcher(StoryFetcher):
 
 
 class TheGuardianStoryFetcher(StoryFetcher):
-    MAX_CALLS_PER_DAY = 5000
+    MAX_CALLS_PER_DAY = 1000
     API_KEY = 'gjdvz5ntp66s4rbc2ecnk4tc'
 
     BASE_URI = 'http://content.guardianapis.com/search'

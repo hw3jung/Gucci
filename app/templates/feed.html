@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Kik News</title>
+    <title>Headlines</title>
     <meta name="viewport" content="width=device-width,
                                    initial-scale=1.0,
                                    maximum-scale=1.0,
                                    user-scalable=no">
     <meta name="kik-prefer" content="true">
-    <link rel="kik-icon" href="news_icon.jpg">
+    <link rel="kik-icon" href="{{ url_for('static', filename='Headlines_logo.png') }}">
     <link rel="stylesheet" href="http://cdn.kik.com/app/1/default.css">
     <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ url_for('static', filename='feed.css') }}" />
@@ -144,7 +144,7 @@
           <span class="menu-toggle-hr"></span>
           <span class="menu-toggle-hr"></span>
         </a>         
-        <div class="app-title">Business and Money</div>
+        <div class="app-title">Business & Money</div>
         <div class="dropdown-container">
           <ul class="dropdown ">
             <li class="item page-link" data-page="home"> Home </li>
