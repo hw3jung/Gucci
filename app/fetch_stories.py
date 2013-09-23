@@ -6,7 +6,7 @@ import json
 import sys
 import time
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, timedelta
 import signal
 import sys
 
@@ -371,13 +371,14 @@ class USATodayStoryFetcher(StoryFetcher):
                 req = urllib2.Request(article['link'])
                 response = urllib2.urlopen(req)
                 soup = BeautifulSoup(response.read(), 'lxml')
-                media = soup.find_all('aside', itemprop='associatedMedia', class_='single-photo')
+                medias = soup.find_all('aside', itemprop='associatedMedia', class_='single-photo')
 
-                if len(media) == 0:
+                if len(medias) == 0:
                     continue
 
-                media = media[0]
-                images.append(media.find_all('img')[0].get('src'))
+                for media in medias:
+                    images.append(media.find_all('img')[0].get('src'))
+
             except Exception as e:
                 pass
 
@@ -424,19 +425,102 @@ class USATodayStoryFetcher(StoryFetcher):
             self.store_stories(articles, topic)
 
 
+class TheGuardianStoryFetcher(StoryFetcher):
+    MAX_CALLS_PER_DAY = 5000
+    API_KEY = 'gjdvz5ntp66s4rbc2ecnk4tc'
+
+    BASE_URI = 'http://content.guardianapis.com/search'
+    TOPICS = ['technology', 'business', 'money' 'world']
+    MAX_ARTICLES = 50
+
+    def store_stories(self, articles, topic):
+        client = get_mongo_client()
+        db = client.get_default_database()
+        article_collection = db['articles']
+        self.log('%d potentially new articles' % (len(articles)))
+        new_articles = []
+        for article in articles:
+            if article_collection.find({'u': article['webUrl']}).count() > 0:
+                continue
+
+            images = []
+
+            try:
+                # retrieve image from news link
+                req = urllib2.Request(article['webUrl'])
+                response = urllib2.urlopen(req)
+                soup = BeautifulSoup(response.read(), 'lxml')
+                medias = soup.find_all('div', id='main-content-picture', itemprop='image')
+
+                if len(medias) == 0:
+                    continue
+
+                for media in medias:
+                    images.append(media.find_all('img')[0].get('src'))
+
+            except Exception as e:
+                pass
+            
+            published_date = article['webPublicationDate'][:10]
+            published_date = datetime.fromtimestamp(
+                time.mktime(time.strptime(published_date, '%Y-%m-%d')))
+
+            params = {
+                'u': article['webUrl'],
+                'c': topic,
+                't': article['webTitle'],
+                'd': published_date,
+                'w': 'guardian',
+                'i': images,
+                'k': 0
+            }
+            if len(params['i']) == 0: continue
+            new_articles.append(params)
+
+        if len(new_articles) > 0:
+            article_collection.insert(new_articles)
+        else:
+            self.log('no new articles to insert')
+
+        close_mongo_client(client)
+
+    def fetch_stories(self):
+        client = get_mongo_client()
+
+        two_days_ago = datetime.utcnow() - timedelta(days=2)
+        two_days_ago = time.strftime('%Y-%m-%d', two_days_ago.timetuple())
+        
+        for topic in self.TOPICS:
+            api_uri = '%s?section=%s&api-key=%s&format=json&from-date=%s&page-size=%s' % \
+                (self.BASE_URI, topic, self.API_KEY, two_days_ago, self.MAX_ARTICLES)
+
+            req = urllib2.Request(api_uri)
+            response = urllib2.urlopen(req)
+
+            result = json.loads(response.read())
+            response.close()
+
+            articles = result['response']['results']
+
+            # push data into mongo
+            self.store_stories(articles, topic)
+
+
 def main():
     # deprecated
     # bbc = BBCStoryFetcher() # bad image quality
 
-    nyt = NYTStoryFetcher()
-    tmz = TMZStoryFetcher()
-    espn = ESPNStoryFetcher()
-    usa = USATodayStoryFetcher()
+    nyt      = NYTStoryFetcher()
+    tmz      = TMZStoryFetcher()
+    espn     = ESPNStoryFetcher()
+    usa      = USATodayStoryFetcher()
+    guardian = TheGuardianStoryFetcher()
 
     nyt.start()
     tmz.start()
     espn.start()
     usa.start()
+    guardian.start()
 
 if __name__ == '__main__':
     main()
