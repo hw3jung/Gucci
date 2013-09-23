@@ -156,7 +156,6 @@ $(document).ready(function() {
       return view;
     },
     killPollTimeout: function () {
-      console.log('killing timer');
       clearTimeout(this.pollTimeoutID);
     },
     setNoMoreStoriesView: function (argument) {
@@ -202,6 +201,12 @@ $(document).ready(function() {
       // feed left view
     },
     kikIt: function() {
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/api/story/kik',
+        data: { 'story_id':  this.story.id }
+      });         
       if (cards.kik) {
         var link = '';
         if (this.story.link.href) {
@@ -247,6 +252,7 @@ $(document).ready(function() {
       this.story               = args.story;
       this.slideShowIntervalID = null;
       this.isPrepended         = args.isPrepended;
+      console.log(this.story.kik_count);
     },
     events: {
       'click .image'  : 'goToLink',
@@ -275,6 +281,12 @@ $(document).ready(function() {
       return this;
     },
     kikIt: function() {
+      $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '/api/story/kik',
+        data: { 'story_id':  this.story.id }
+      });      
       if (cards.kik) {
         var link = '';
         if (this.story.link.href) {
@@ -290,7 +302,7 @@ $(document).ready(function() {
             pic       : this.story.images[0]   , // optional
             big       : true                   , // optional
             noForward : false                  , // optional
-            data      : { 'link' : link, 'story_id' : this.story.id } // optional
+            data      : this.story
         });
       }
     },
@@ -422,16 +434,6 @@ $(document).ready(function() {
 
   // receive a message
   if (cards.kik && cards.kik.message) {
-      // your card was launched from a message
-      // cards.kik.message is exactly what was provided in kik.send
-      // redirect user to news link
-
-      $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: '/api/story/kik',
-        data: { 'story_id':  cards.kik.message.story_id }
-      });
-      cards.open(cards.kik.message.link);
+      App.load('story', cards.kik.message);
   }
 });
