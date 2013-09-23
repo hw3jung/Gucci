@@ -502,6 +502,9 @@ class TheGuardianStoryFetcher(StoryFetcher):
 
             articles = result['response']['results']
 
+            if topic == 'technology':
+                topic = 'tech'
+
             # push data into mongo
             self.store_stories(articles, topic)
 
