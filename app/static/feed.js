@@ -198,6 +198,7 @@ $(document).ready(function() {
     },          
     render: function() {
       this.$('iframe').attr('src', this.story.link);
+      this.delegateEvents();
       //this.$('.app-title').text(this.story.title);
       return this;
     },
