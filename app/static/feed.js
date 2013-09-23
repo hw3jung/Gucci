@@ -197,7 +197,8 @@ $(document).ready(function() {
       'nyt' : 'http://upload.wikimedia.org/wikipedia/commons/7/77/The_New_York_Times_logo.png',
       'bbc' : 'https://2.gravatar.com/avatar/e06c65f9e89d28025c47b6046f701c13?d=https%3A%2F%2Fidenticons.github.com%2F1b38f1ee5d9820f661140aeecbae649a.png&s=400',
       'espn': 'http://images3.wikia.nocookie.net/__cb20090419231813/disney/images/8/8f/ESPN_wordmark.png',
-      'usa' : 'http://citizensclimatelobby.org/wp-content/uploads/2013/08/USAToday-Logo-trans.gif'
+      'usa' : 'http://citizensclimatelobby.org/wp-content/uploads/2013/08/USAToday-Logo-trans.gif',
+      'guardian' : 'http://www.userlogos.org/files/logos/Mafia_Penguin/guardian.png'
     },
     initialize: function(args) {
       this.story               = args.story;

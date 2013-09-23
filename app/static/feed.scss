@@ -56,6 +56,9 @@ body {
     text-align: center;
     float: none !important;
   }
+  .app-button[data-back] {
+    padding-right: 3px !important;
+  }
 }
 
 .app-content {

@@ -100,6 +100,8 @@ body {
     margin: 0px auto;
     text-align: center;
     float: none !important; }
+  .app-topbar .app-button[data-back] {
+    padding-right: 3px !important; }
 
 .app-content {
   background: #f1f1f1 url(//mobile.gannett-cdn.com/static/usat-mobile-static-1.0.5/images/texture1x.png) repeat top left;
