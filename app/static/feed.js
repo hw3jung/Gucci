@@ -33,6 +33,7 @@ $(document).ready(function() {
     feedCategories: [],
     loadingOlderStories: false,
     noMoreOlderStories: false,
+    loadingLi: null,
     initialize: function(args) {
       this.stories       = args.initialStories;
       this.storieViews   = [];
@@ -101,9 +102,10 @@ $(document).ready(function() {
     },
     loadOlderStories: function () {
       if(this.loadingOlderStories || this.noMoreOlderStories) return;
-      
+      this.showBottomSpinner();
       this.loadingOlderStories = true;
       var onComplete = function(data) {
+        this.loadingLi.detach();
         this.loadingOlderStories = false;
         if(data.stories.length > 0) {
           this.oldestStoryID = data.stories[
@@ -111,6 +113,8 @@ $(document).ready(function() {
           ].id;
         } else {
           this.noMoreOlderStories = true;
+          this.loadingLi.text('Sorry, there are no more stories');
+          $(this.el).append(this.loadingLi);
         }        
         data.stories.shuffle();
         _.each(data.stories, function(story) {
@@ -122,6 +126,7 @@ $(document).ready(function() {
       }.bindTo(this);
 
       var onError = function () {
+        this.loadingLi.detach();
         this.loadingOlderStories = false;
         this.startTimeout();
       }.bindTo(this);
@@ -151,7 +156,14 @@ $(document).ready(function() {
     },
     killPollTimeout: function () {
       clearTimeout(this.pollTimeoutID);
-    }       
+    },
+    showBottomSpinner: function (argument) {
+      if(!this.loadingLi) {
+        this.loadingLi = $('<li>Loading More Stories</li>')
+                        .css('text-align', 'center');
+      }
+      $(this.el).append(this.loadingLi);
+    }           
   });
 
   var HomeFeedView      = FeedView.extend({ feedCategories: [] });
@@ -253,9 +265,8 @@ $(document).ready(function() {
         }.bindTo(this);
         this.slideShowIntervalID = setInterval(swapImage, this.SLIDE_SHOW_INTERVAL);
       }.bindTo(this);
-
       setTimeout(init, Math.random() * 2500);
-    },
+    }
   });
 
 
