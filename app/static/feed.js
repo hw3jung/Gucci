@@ -188,10 +188,11 @@ $(document).ready(function() {
       this.setElement(args.el);
     },
     events: {
-
+      'touchstart .kik-it': 'kikIt',
     },          
     render: function() {
       this.$('iframe').attr('src', this.story.link);
+      this.$('.app-title').text(this.story.title);
       return this;
     },
     feedDidAppear: function () {
@@ -199,7 +200,27 @@ $(document).ready(function() {
     },
     feedDidDisappear: function () {
       // feed left view
-    }  
+    },
+    kikIt: function() {
+      if (cards.kik) {
+        var link = '';
+        if (this.story.link.href) {
+          link = this.story.link.href;
+        } else {
+          link = this.story.link;
+        }
+
+        // send a message
+        cards.kik.send({
+            title     : this.story.title       ,
+            text      : 'Check this out!'      ,
+            pic       : this.story.images[0]   , // optional
+            big       : true                   , // optional
+            noForward : false                  , // optional
+            data      : { 'link' : link, 'story_id' : this.story.id } // optional
+        });
+      }
+    }      
   });
 
   var HomeFeedView             = FeedView.extend({ feedCategories: [] });
