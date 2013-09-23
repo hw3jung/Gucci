@@ -43,8 +43,17 @@ body {
   padding: 55px 25px;
 }
 
-.dropdown {
+.dropdown-container {
+  background-color:rgba(255, 255, 255, 0.90) !important;
+  width: 100% !important;;
+  position: absolute;
   display: none;
+}
+
+.dropdown {
+  color: #4D4D4D !important;
+  font-weight: bold !important;
+  opacity: 0.90 !important;  
   padding: 5px 20px;
   margin: 0px auto;
   text-align: center;

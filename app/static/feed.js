@@ -254,16 +254,16 @@ $(document).ready(function() {
 
   var SetPageEventHandlers = function (page) {
     $(page).find('.app-title').on('touchstart', function() {
-      var el = $(page).find('.dropdown');
+      var el = $(page).find('.dropdown-container');
       if(el.is(':visible')) {
-        $(page).find('.dropdown').hide();  
+        el.hide();  
       } else {
-        $(page).find('.dropdown').show();
+        el.show();
       }
     });
 
     $(page).on('appShow', function () {
-      $(page).find('.dropdown').hide();  
+      $(page).find('.dropdown-container').hide();  
     }); 
 
     $(page).find('.page-link').on('touchstart', function() {
