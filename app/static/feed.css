@@ -17,7 +17,7 @@
 .left, .story .s-details .kik-stats .kik-count {
   float: left; }
 
-.right {
+.right, .menu-toggle-btn {
   float: right; }
 
 .clear {
@@ -60,6 +60,24 @@ body {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
+
+.menu-toggle-btn {
+  width: 70px;
+  height: 50px;
+  margin-top: -10px;
+  display: inline-block; }
+
+.menu-toggle-hr {
+  position: relative;
+  display: block;
+  top: 11px;
+  color: #484848;
+  border-top: 1px solid #484848;
+  border-style: solid;
+  width: 21px;
+  margin: 0 auto;
+  margin-top: 4px;
+  margin-left: 20px; }
 
 .app-topbar {
   -webkit-box-shadow: 0 0 16px #ededed !important;

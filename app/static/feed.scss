@@ -16,6 +16,27 @@ body {
   @include border-box-sizing;
 }
 
+.menu-toggle-btn {
+  @extend .right;
+  width: 70px;
+  height: 50px;
+  margin-top: -10px;
+  display: inline-block;
+}
+
+.menu-toggle-hr {
+  position: relative;
+  display: block;
+  top: 11px;
+  color: #484848;
+  border-top: 1px solid #484848;
+  border-style: solid;
+  width: 21px;
+  margin: 0 auto;
+  margin-top: 4px;
+  margin-left: 20px;
+}
+
 .app-topbar {
   @include box-shadow(0 0 16px #EDEDED !important);  
   background-color:rgba(255, 255, 255, 0.90) !important;;

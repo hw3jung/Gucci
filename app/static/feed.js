@@ -271,7 +271,7 @@ $(document).ready(function() {
 
 
   var SetPageEventHandlers = function (page) {
-    $(page).find('.app-title').on('touchstart', function() {
+    $(page).find('.app-title, .menu-toggle-btn').on('touchstart', function() {
       var el = $(page).find('.dropdown-container');
       if(el.is(':visible')) {
         el.hide();  
