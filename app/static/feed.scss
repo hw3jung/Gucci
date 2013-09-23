@@ -85,7 +85,10 @@ body {
       padding: 0px;
       @extend .clearfix;
 
-
+      .kik-count {
+        @extend .left;
+        padding: 4px 15px 0px 15px;
+      }
 
       .kik-it {
         padding: 4px 15px 0px 15px;

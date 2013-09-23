@@ -12,6 +12,7 @@ app.config['DEBUG'] = True
 @app.route('/')
 def feed():
     home_stories =  get_latest_stories(
+                        offset=3,
                         sort=-1,
                         num_articles=50
                     )

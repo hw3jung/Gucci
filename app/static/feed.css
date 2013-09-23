@@ -14,7 +14,7 @@
 .clearfix, .story .s-details .kik-stats {
   zoom: 1; }
 
-.left {
+.left, .story .s-details .kik-stats .kik-count {
   float: left; }
 
 .right {
@@ -140,6 +140,8 @@ body {
       height: 40px;
       background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
       padding: 0px; }
+      .story .s-details .kik-stats .kik-count {
+        padding: 4px 15px 0px 15px; }
       .story .s-details .kik-stats .kik-it {
         padding: 4px 15px 0px 15px;
         border-left: 1px solid #ddd;

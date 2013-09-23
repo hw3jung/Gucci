@@ -5,24 +5,17 @@ $(document).ready(function() {
 
   Array.prototype.shuffle = function () {
     var array = this;
-    var currentIndex = array.length
-      , temporaryValue
-      , randomIndex
-      ;
-
-    // While there remain elements to shuffle...
+    var currentIndex = array.length,
+        temporaryValue,
+        randomIndex;
+       
     while (0 !== currentIndex) {
-
-      // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-
-      // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
-
     return array;
   }; 
 
@@ -36,7 +29,7 @@ $(document).ready(function() {
 
   var FeedView = Backbone.View.extend({
     tagName: 'ul',
-    pollInterval: 20000,
+    pollInterval: 5000,
     feedCategories: [],
     loadingOlderStories: false,
     noMoreOlderStories: false,
@@ -50,10 +43,6 @@ $(document).ready(function() {
         this.latestStoryID = null;
         this.oldestStoryID = null;
       }
-      console.log(
-        this.latestStoryID,
-        this.oldestStoryID
-      );
       this.setElement(args.el);
       this.startTimeout();     
     },
@@ -144,8 +133,12 @@ $(document).ready(function() {
       return view;
     },
     prependStory: function(storyData) {  
-      var view = new StoryView({ story: storyData });
+      var view  = new StoryView({ 
+                    story: storyData, 
+                    isPrepended: true 
+                  });
       $(this.el).prepend(view.render().el);
+      $(view.el).show();
       return view;
     },
     killPollTimeout: function () {
@@ -168,8 +161,9 @@ $(document).ready(function() {
       'espn': 'http://images3.wikia.nocookie.net/__cb20090419231813/disney/images/8/8f/ESPN_wordmark.png'
     },
     initialize: function(args) {
-      this.story = args.story;
+      this.story              = args.story;
       this.slideShowTimeoutID = null;
+      this.isPrepended        = args.isPrepended;
     },
     events: {
       'click .image'  : 'goToLink',
@@ -178,12 +172,16 @@ $(document).ready(function() {
     }, 
     goToLink: function () {
       if (this.story.link.href) {
-        cards.open(this.story.link.href); // opens in default web browser
+        cards.open(this.story.link.href); 
       } else {
         cards.open(this.story.link);
       }
     },
     render: function() {
+      if(this.isPrepended) {
+        $(this.el).css('display', 'none')
+                  .addClass('animated bounceInDown');
+      }
       var sourceLogo = '';
       if(this.SOURCE_LOGOS[this.story.source]) {
         sourceLogo = this.SOURCE_LOGOS[this.story.source];
@@ -191,7 +189,7 @@ $(document).ready(function() {
       $(this.el).html(this.tpl({
         story: this.story,
         sourceLogo: sourceLogo
-      }));
+      })); 
       return this;
     },
     kikIt: function() {
