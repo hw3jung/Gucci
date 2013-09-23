@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from fetch_stories import get_mongo_client, close_mongo_client
+from bson import ObjectId
 
 def increment_kik_count(article_id):
     success = True
@@ -10,7 +11,7 @@ def increment_kik_count(article_id):
         article_collection = db['articles']
 
         article_collection.update(
-            { '_id'  : article_id },
+            { '_id'  : ObjectId(article_id) },
             { '$inc' : { 'k' : 1 }}
         )
 

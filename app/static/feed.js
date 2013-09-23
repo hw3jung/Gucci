@@ -260,6 +260,7 @@ $(document).ready(function() {
       this.story               = args.story;
       this.slideShowIntervalID = null;
       this.isPrepended         = args.isPrepended;
+      console.log(this.story.kik_count);
     },
     events: {
       'click .image'  : 'goToLink',
