@@ -29,7 +29,7 @@ $(document).ready(function() {
 
   var FeedView = Backbone.View.extend({
     tagName: 'ul',
-    pollInterval: 5000,
+    POLL_INTERVAL: 5000,
     feedCategories: [],
     loadingOlderStories: false,
     noMoreOlderStories: false,
@@ -63,7 +63,7 @@ $(document).ready(function() {
     startTimeout: function() {
       this.pollTimeoutID = setTimeout(
         this.checkForNewStories.bindTo(this), 
-        this.pollInterval
+        this.POLL_INTERVAL
       );
     },
     checkForNewStories: function() {
@@ -154,6 +154,7 @@ $(document).ready(function() {
   var StoryView = Backbone.View.extend({
     tagName: 'li',
     tpl: _.template($('#story-template').html()),
+    SLIDE_SHOW_INTERVAL: 5000,
     SOURCE_LOGOS: {
       'tmz' : 'http://upload.wikimedia.org/wikipedia/commons/5/54/TMZLogo.svg',
       'nyt' : 'http://upload.wikimedia.org/wikipedia/commons/7/77/The_New_York_Times_logo.png',
@@ -161,9 +162,9 @@ $(document).ready(function() {
       'espn': 'http://images3.wikia.nocookie.net/__cb20090419231813/disney/images/8/8f/ESPN_wordmark.png'
     },
     initialize: function(args) {
-      this.story              = args.story;
-      this.slideShowTimeoutID = null;
-      this.isPrepended        = args.isPrepended;
+      this.story               = args.story;
+      this.slideShowIntervalID = null;
+      this.isPrepended         = args.isPrepended;
     },
     events: {
       'click .image'  : 'goToLink',
@@ -190,11 +191,14 @@ $(document).ready(function() {
         story: this.story,
         sourceLogo: sourceLogo
       })); 
+      if(this.story.images.length > 1) {
+        this.initImageSlideShow();
+      }
       return this;
     },
     kikIt: function() {
       if (cards.kik) {
-        var link = "";
+        var link = '';
         if (this.story.link.href) {
           link = this.story.link.href;
         } else {
@@ -213,10 +217,30 @@ $(document).ready(function() {
       }
     },
     initImageSlideShow: function() {
-      var swapImage = function () {
-        
+      var init = function() {
+        var index = 0,
+            currentImage = this.$('.image'),
+            images = this.story.images;;
+        var swapImage = function () {
+          if(index == images.length - 1) {
+            index = 0;
+          } else {
+            index += 1;
+          }
+          $('<img />')
+            .attr('src', images[index])
+            .addClass('image')
+            .load(function() {
+              var me = this;
+              currentImage.fadeOut('medium', function() {
+                $(this).replaceWith(me);
+              });
+              currentImage = $(me);
+            });
+        }.bindTo(this);
+        this.slideShowIntervalID = setInterval(swapImage, this.SLIDE_SHOW_INTERVAL);
       }.bindTo(this);
-      this.slideShowTimeoutID = setTimeout(func, delay)
+      setTimeout(init, Math.random() * 2500);
     },
   });
 
