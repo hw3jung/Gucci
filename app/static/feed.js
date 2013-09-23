@@ -29,7 +29,7 @@ $(document).ready(function() {
 
   var FeedView = Backbone.View.extend({
     tagName: 'ul',
-    POLL_INTERVAL: 5000,
+    POLL_INTERVAL: 10000,
     feedCategories: [],
     loadingOlderStories: false,
     noMoreOlderStories: false,
