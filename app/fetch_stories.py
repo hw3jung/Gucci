@@ -341,7 +341,7 @@ class ESPNStoryFetcher(StoryFetcher):
 
 
 class USATodayStoryFetcher(StoryFetcher):
-    MAX_CALLS_PER_DAY = 900
+    MAX_CALLS_PER_DAY = 450
     API_KEYS_DICT = {
         'articles': '7eh2cqt7pncj7hjqxm8xtjha',
         'breaking': 'tmezyxpqqvyx5n8a88xrjnzn'
@@ -426,7 +426,7 @@ class USATodayStoryFetcher(StoryFetcher):
 
 
 class TheGuardianStoryFetcher(StoryFetcher):
-    MAX_CALLS_PER_DAY = 5000
+    MAX_CALLS_PER_DAY = 1000
     API_KEY = 'gjdvz5ntp66s4rbc2ecnk4tc'
 
     BASE_URI = 'http://content.guardianapis.com/search'
