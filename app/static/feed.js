@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+  var ua = navigator.userAgent.toLowerCase();
+  if(ua.indexOf("android") > -1) {
+    $('.app-topbar .kik-it').css('padding-top', '9px');
+  }  
+
   Function.prototype.bindTo = function(obj) {
     return _.bind(this, obj);
   };
