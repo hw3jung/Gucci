@@ -52,9 +52,10 @@ $(document).ready(function() {
     },          
     render: function(animateIn) {
       this.stories.shuffle();
-      _.each(this.stories, function(storyData) {
+      _.each(this.stories, function(storyData, i) {
         if(storyData.images.length > 0) {
-          if(animateIn) {
+          if(animateIn && i == storyData.images.length - 1) {
+            //only animate last item
             this.storieViews.push(
               this.prependStory(storyData)
             ); 
