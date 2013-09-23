@@ -156,6 +156,7 @@ $(document).ready(function() {
       return view;
     },
     killPollTimeout: function () {
+      console.log('killing timer');
       clearTimeout(this.pollTimeoutID);
     },
     setNoMoreStoriesView: function (argument) {
@@ -168,7 +169,15 @@ $(document).ready(function() {
     showBottomSpinner: function (argument) {
       this.loadingLi.text('Loading More Stories');
       $(this.el).append(this.loadingLi);
-    }           
+    },
+    feedDidAppear: function () {
+      // feed came back into view
+      this.startTimeout();
+    },
+    feedDidDisappear: function () {
+      // feed left view
+      this.killPollTimeout();
+    }  
   });
 
   var HomeFeedView             = FeedView.extend({ feedCategories: [] });
@@ -287,9 +296,18 @@ $(document).ready(function() {
       }
     });
 
-    $(page).on('appShow', function () {
-      $(page).find('.dropdown-container').hide();  
-    }); 
+    $(page).on('appShow', (function (view) {
+        return function() {
+          $(page).find('.dropdown-container').hide();  
+          view.feedDidAppear();
+        }
+    })(window.CurrentFeedView)); 
+
+    $(page).on('appHide', (function (view) {
+        return function() {
+          view.feedDidDisappear();
+        }
+    })(window.CurrentFeedView)); 
 
     $(page).find('.page-link').on('touchstart', function() {
       App.load($(this).data('page'));
