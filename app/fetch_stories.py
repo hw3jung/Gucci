@@ -430,7 +430,7 @@ class TheGuardianStoryFetcher(StoryFetcher):
     API_KEY = 'gjdvz5ntp66s4rbc2ecnk4tc'
 
     BASE_URI = 'http://content.guardianapis.com/search'
-    TOPICS = ['technology', 'business', 'money' 'world']
+    TOPICS = ['technology', 'business', 'money', 'world']
     MAX_ARTICLES = 50
 
     def store_stories(self, articles, topic):
