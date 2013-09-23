@@ -50,13 +50,19 @@ $(document).ready(function() {
     events: {
 
     },          
-    render: function() {
+    render: function(animateIn) {
       this.stories.shuffle();
       _.each(this.stories, function(storyData) {
         if(storyData.images.length > 0) {
-          this.storieViews.push(
-            this.appendStory(storyData)
-          );
+          if(animateIn) {
+            this.storieViews.push(
+              this.prependStory(storyData)
+            ); 
+          } else {
+            this.storieViews.push(
+              this.appendStory(storyData)
+            );            
+          }
         }
       }.bindTo(this));
       return this;
@@ -144,7 +150,7 @@ $(document).ready(function() {
     },
     killPollTimeout: function () {
       clearTimeout(this.pollTimeoutID);
-    }         
+    }       
   });
 
   var HomeFeedView      = FeedView.extend({ feedCategories: [] });
@@ -282,8 +288,8 @@ $(document).ready(function() {
   App.populator('sports', function (page) {
     window.CurrentFeedView = new SportsFeedView({
       el: $(page).find('.feed'),
-      initialStories: []
-    }).render();
+      initialStories: window.PAGE_PARAMS.sportsStories
+    }).render(true);
     SetPageEventHandlers(page);
   });
 
@@ -291,23 +297,23 @@ $(document).ready(function() {
     window.CurrentFeedView = new PoliticsFeedView({
       el: $(page).find('.feed'),
       initialStories: []
-    }).render();
+    }).render(true);
     SetPageEventHandlers(page);
   });                
 
   App.populator('celebrity', function (page) {
     window.CurrentFeedView = new CelebrityFeedView({
       el: $(page).find('.feed'),
-      initialStories: []
-    }).render();
+      initialStories: window.PAGE_PARAMS.celebrityStories
+    }).render(true);
     SetPageEventHandlers(page);
   });
 
   App.populator('tech', function (page) {
     window.CurrentFeedView = new TechFeedView({
       el: $(page).find('.feed'),
-      initialStories: []
-    }).render();
+      initialStories: window.PAGE_PARAMS.techStories
+    }).render(true);
     SetPageEventHandlers(page);
   });
 

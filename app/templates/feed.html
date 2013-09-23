@@ -110,7 +110,10 @@
     <script src="{{ url_for('static', filename='feed.js') }}"></script>
     <script type="text/javascript">
       window.PAGE_PARAMS = {
-        'homeStories': {{ home_stories|tojson|safe }}
+        'homeStories': {{ home_stories|tojson|safe }},
+        'sportsStories': {{ sports_stories|tojson|safe }},
+        'celebrityStories': {{ celebrity_stories|tojson|safe }},
+        'techStories': {{ tech_stories|tojson|safe }}
       };
       window.CurrentFeedView = null;
     </script>
