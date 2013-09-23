@@ -358,7 +358,10 @@ class USATodayStoryFetcher(StoryFetcher):
         self.log('%d potentially new articles' % (len(articles)))
         new_articles = []
         for article in articles:
-            if article_collection.find({'u': article['link']}).count() > 0:
+            # notice here that we are checking duplicates by title;
+            # USA Today api generates random data and appends it to the feed url
+            # so we can't use it as a unique key
+            if article_collection.find({'t': article['title']}).count() > 0:
                 continue
 
             images = []
