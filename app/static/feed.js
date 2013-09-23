@@ -211,6 +211,7 @@ $(document).ready(function() {
       // feed left view
     },
     kikIt: function() {
+      this.story.kik_count++;
       $.ajax({
         type: 'POST',
         dataType: 'json',
@@ -262,7 +263,6 @@ $(document).ready(function() {
       this.story               = args.story;
       this.slideShowIntervalID = null;
       this.isPrepended         = args.isPrepended;
-      console.log(this.story.kik_count);
     },
     events: {
       'click .image'  : 'goToLink',
@@ -291,12 +291,19 @@ $(document).ready(function() {
       return this;
     },
     kikIt: function() {
+      this.story.kik_count++;
       $.ajax({
         type: 'POST',
         dataType: 'json',
         url: '/api/story/kik',
         data: { 'story_id':  this.story.id }
       });      
+      if(this.story.kik_count == 0) {
+        var html = '<div class="kik-count left"><span>1</span> Kik</div>';
+        this.$('.kik-stats').prepend(html);
+      } else {
+        this.$('.kik-count span').text(this.story.kik_count);
+      }
       if (cards.kik) {
         var link = '';
         if (this.story.link.href) {
