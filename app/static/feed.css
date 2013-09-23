@@ -61,12 +61,12 @@ body {
   -webkit-box-shadow: 0 0 16px #ededed !important;
   -moz-box-shadow: 0 0 16px #ededed !important;
   box-shadow: 0 0 16px #ededed !important;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.9) !important;
   color: #4D4D4D !important;
   font-weight: normal !important;
-  border: 1px solid #EDEDED;
-  width: 100%;
-  margin: 0px;
+  border: 1px solid #EDEDED !important;
+  width: 100% !important;
+  margin: 0px !important;
   font-weight: bold !important;
   opacity: 0.90 !important; }
 
