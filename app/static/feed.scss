@@ -76,7 +76,7 @@ body {
   }
 
   .app-title {
-    padding-right: 100px;
+    width: 60%;
   }
 
   iframe {
@@ -84,8 +84,12 @@ body {
     height: 100%;
   }
 
+  .nothing {
+    border: none !important;
+    @include box-shadow(none !important);  
+  }
+
   .kik-img {
-    padding: 9px;
   }
 }
 .dropdown-container {
