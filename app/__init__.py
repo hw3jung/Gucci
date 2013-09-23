@@ -26,16 +26,30 @@ def feed():
                         num_articles=20
                     )
     tech_stories =  get_latest_stories(
-                        categories=['tech'],
+                        categories=['tech', 'technology'],
                         sort=-1,
                         num_articles=20
-                    )                     
+                    )    
+    world_stories =  get_latest_stories(
+                        categories=['world'],
+                        sort=-1,
+                        num_articles=20
+                    )   
+
+    business_stories =  get_latest_stories(
+                        categories=['business', 'money'],
+                        sort=-1,
+                        num_articles=20
+                    )                                
+                           
     return  render_template(
                 'feed.html', 
                 home_stories=home_stories,
                 sports_stories=sports_stories,
                 celebrity_stories=celebrity_stories,
-                tech_stories=tech_stories
+                tech_stories=tech_stories,
+                business_stories=business_stories,
+                world_stories=world_stories
             )
 
 @app.route('/api/stories/since', methods=['POST'])

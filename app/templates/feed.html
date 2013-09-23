@@ -29,6 +29,8 @@
             <li class="item page-link" data-page="tech"> Technology </li>
             <li class="item page-link" data-page="celebrity"> Celebrity </li>
             <li class="item page-link" data-page="sports"> Sports </li>
+            <li class="item page-link" data-page="bm"> Business and Money</li>
+            <li class="item page-link" data-page="world"> World</li>
           </ul>           
         </div>       
       </div>
@@ -51,6 +53,8 @@
             <li class="item page-link" data-page="home"> Home </li>
             <li class="item page-link" data-page="tech"> Technology </li>
             <li class="item page-link" data-page="celebrity"> Celebrity </li>
+            <li class="item page-link" data-page="bm"> Business and Money</li>
+            <li class="item page-link" data-page="world"> World</li>
           </ul>         
         </div>
       </div>
@@ -74,6 +78,8 @@
             <li class="item page-link" data-page="tech"> Technology </li>
             <li class="item page-link" data-page="celebrity"> Celebrity </li>
             <li class="item page-link" data-page="sports"> Sports </li>
+            <li class="item page-link" data-page="bm"> Business and Money</li>
+            <li class="item page-link" data-page="world"> World</li>
           </ul>    
         </div>     
       </div>
@@ -96,6 +102,8 @@
             <li class="item page-link" data-page="home"> Home </li>
             <li class="item page-link" data-page="tech"> Technology </li>
             <li class="item page-link" data-page="sports"> Sports </li>
+            <li class="item page-link" data-page="bm"> Business and Money</li>
+            <li class="item page-link" data-page="world"> World</li>
           </ul>         
         </div>
       </div>
@@ -118,6 +126,8 @@
             <li class="item page-link" data-page="home"> Home </li>
             <li class="item page-link" data-page="celebrity"> Celebrity </li>
             <li class="item page-link" data-page="sports"> Sports </li>
+            <li class="item page-link" data-page="bm"> Business and Money</li>
+            <li class="item page-link" data-page="world"> World</li>
           </ul>         
         </div>
       </div>
@@ -126,6 +136,54 @@
         </ul>        
       </div>
     </div>    
+    <div class="app-page" data-page="bm">
+      <div class="app-topbar">
+        <div class="app-button left" data-back="true">Back</div>
+        <a class="menu-toggle-btn main-nav-btn">
+          <span class="menu-toggle-hr"></span>
+          <span class="menu-toggle-hr"></span>
+          <span class="menu-toggle-hr"></span>
+        </a>         
+        <div class="app-title">Business and Money</div>
+        <div class="dropdown-container">
+          <ul class="dropdown ">
+            <li class="item page-link" data-page="home"> Home </li>
+            <li class="item page-link" data-page="tech"> Technology </li>
+            <li class="item page-link" data-page="celebrity"> Celebrity </li>
+            <li class="item page-link" data-page="sports"> Sports </li>
+            <li class="item page-link" data-page="world"> World</li>
+          </ul>         
+        </div>
+      </div>
+      <div class="app-content">
+        <ul class="feed">
+        </ul>        
+      </div>
+    </div>    
+    <div class="app-page" data-page="world">
+      <div class="app-topbar">
+        <div class="app-button left" data-back="true">Back</div>
+        <a class="menu-toggle-btn main-nav-btn">
+          <span class="menu-toggle-hr"></span>
+          <span class="menu-toggle-hr"></span>
+          <span class="menu-toggle-hr"></span>
+        </a>         
+        <div class="app-title">World</div>
+        <div class="dropdown-container">
+          <ul class="dropdown ">
+            <li class="item page-link" data-page="home"> Home </li>
+            <li class="item page-link" data-page="tech"> Technology </li>
+            <li class="item page-link" data-page="celebrity"> Celebrity </li>
+            <li class="item page-link" data-page="sports"> Sports </li>
+            <li class="item page-link" data-page="bm"> Business and Money</li>
+          </ul>         
+        </div>
+      </div>
+      <div class="app-content">
+        <ul class="feed">
+        </ul>        
+      </div>
+    </div>     
     
     <!-- put your pages here -->
     <script src="http://cdn.kik.com/cards/0/cards.js"></script>
@@ -140,10 +198,11 @@
         'homeStories': {{ home_stories|tojson|safe }},
         'sportsStories': {{ sports_stories|tojson|safe }},
         'celebrityStories': {{ celebrity_stories|tojson|safe }},
-        'techStories': {{ tech_stories|tojson|safe }}
+        'techStories': {{ tech_stories|tojson|safe }},
+        'businessAndMoneyStories': {{ business_stories|tojson|safe }},
+        'worldStories': {{ world_stories|tojson|safe }}
       };
       window.CurrentFeedView = null;
-      window.SPINNER_URL = "{{ url_for('static', filename='spinner.gif') }}";
     </script>
     <!-- feed template -->
     <script id="story-template" type="text/html"> 

@@ -33,7 +33,7 @@ $(document).ready(function() {
     feedCategories: [],
     loadingOlderStories: false,
     noMoreOlderStories: false,
-    loadingLi: null,
+    loadingLi: $('<li></li>').css('text-align', 'center'),
     initialize: function(args) {
       this.stories       = args.initialStories;
       this.storieViews   = [];
@@ -44,6 +44,7 @@ $(document).ready(function() {
       } else {
         this.latestStoryID = '000000000000000000000000';
         this.oldestStoryID = '000000000000000000000000';
+        this.setNoMoreStoriesView();
         this.checkForNewStories();
       }
       this.setElement(args.el);
@@ -75,12 +76,13 @@ $(document).ready(function() {
         this.POLL_INTERVAL
       );
     },
-    checkForNewStories: function() {
+    checkForNewStories: function(cb) {
       var onComplete = function(data) {
         if(data.stories.length > 0) {
           this.latestStoryID = data.stories[
             data.stories.length - 1
           ].id;
+          this.loadingLi.detach();
         };
         data.stories.shuffle();
         _.each(data.stories, function(story) {
@@ -113,8 +115,7 @@ $(document).ready(function() {
           ].id;
         } else {
           this.noMoreOlderStories = true;
-          this.loadingLi.text('Sorry, there are no more stories');
-          $(this.el).append(this.loadingLi);
+          this.setNoMoreStoriesView();
         }        
         data.stories.shuffle();
         _.each(data.stories, function(story) {
@@ -157,20 +158,26 @@ $(document).ready(function() {
     killPollTimeout: function () {
       clearTimeout(this.pollTimeoutID);
     },
+    setNoMoreStoriesView: function (argument) {
+      if(this.stories.length == 0)
+        this.loadingLi.text('Sorry, there are no more stories here');
+      else
+        this.loadingLi.text('Sorry, there are no more stories');
+      $(this.el).append(this.loadingLi);
+    },      
     showBottomSpinner: function (argument) {
-      if(!this.loadingLi) {
-        this.loadingLi = $('<li>Loading More Stories</li>')
-                        .css('text-align', 'center');
-      }
+      this.loadingLi.text('Loading More Stories');
       $(this.el).append(this.loadingLi);
     }           
   });
 
-  var HomeFeedView      = FeedView.extend({ feedCategories: [] });
-  var SportsFeedView    = FeedView.extend({ feedCategories: ['sports'] });
-  var PoliticsFeedView  = FeedView.extend({ feedCategories: ['politics', 'headline'] });
-  var CelebrityFeedView = FeedView.extend({ feedCategories: ['celebrity', 'life'] });
-  var TechFeedView      = FeedView.extend({ feedCategories: ['tech'] });
+  var HomeFeedView             = FeedView.extend({ feedCategories: [] });
+  var SportsFeedView           = FeedView.extend({ feedCategories: ['sports'] });
+  var PoliticsFeedView         = FeedView.extend({ feedCategories: ['politics', 'headline'] });
+  var CelebrityFeedView        = FeedView.extend({ feedCategories: ['celebrity', 'life'] });
+  var TechFeedView             = FeedView.extend({ feedCategories: ['tech'] });
+  var BusinessAndMoneyFeedView = FeedView.extend({ feedCategories: ['business', 'money'] });
+  var WorldFeedView            = FeedView.extend({ feedCategories: ['world'] });
 
   var StoryView = Backbone.View.extend({
     tagName: 'li',
@@ -230,7 +237,7 @@ $(document).ready(function() {
         // send a message
         cards.kik.send({
             title     : this.story.title       ,
-            text      : 'Hey, here is an interesting article',
+            text      : 'Check this out!'      ,
             pic       : this.story.images[0]   , // optional
             big       : true                   , // optional
             noForward : false                  , // optional
@@ -329,6 +336,22 @@ $(document).ready(function() {
     SetPageEventHandlers(page);
   });
 
+  App.populator('bm', function (page) {
+    window.CurrentFeedView = new BusinessAndMoneyFeedView({
+      el: $(page).find('.feed'),
+      initialStories: window.PAGE_PARAMS.businessAndMoneyStories
+    }).render(true);
+    SetPageEventHandlers(page);
+  });
+
+  App.populator('world', function (page) {
+    window.CurrentFeedView = new WorldFeedView({
+      el: $(page).find('.feed'),
+      initialStories: []
+    }).render(true);
+    SetPageEventHandlers(page);
+  });
+
   App.load('home');
 
   // receive a message
@@ -343,7 +366,6 @@ $(document).ready(function() {
         url: '/api/story/kik',
         data: { 'story_id':  cards.kik.message.story_id }
       });
-
       cards.open(cards.kik.message.link);
   }
 });
