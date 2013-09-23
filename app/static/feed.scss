@@ -39,6 +39,7 @@ body {
 }
 
 .app-topbar {
+  @extend .clearfix; 
   @include box-shadow(0 0 16px #EDEDED !important);  
   background-color:rgba(255, 255, 255, 0.90) !important;;
   background-image: none !important;
@@ -77,6 +78,7 @@ body {
 
   .app-title {
     width: 60%;
+    min-width: 10%;
   }
 
   iframe {
