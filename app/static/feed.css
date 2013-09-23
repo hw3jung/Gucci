@@ -166,7 +166,7 @@ body {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 0%;
+    background: #fff;
     border: 1px solid #EDEDED;
     opacity: 0.9; }
   .story .s-details {
