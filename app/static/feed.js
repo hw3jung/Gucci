@@ -270,7 +270,7 @@ $(document).ready(function() {
         sourceLogo: sourceLogo
       })); 
       if(this.story.images.length > 1) {
-        this.initImageSlideShow();
+        //this.initImageSlideShow();
       }
       return this;
     },
