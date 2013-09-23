@@ -61,7 +61,8 @@ body {
     width: $details-width;
     margin: 0px auto;
     @include border-radius(2px);
-    @include box-shadow(0 1px 4px rgba(0,0,0,0.3));     
+    @include box-shadow(0 1px 4px rgba(0,0,0,0.3)); 
+    @include border-box-sizing;    
     background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
     border: 1px solid #EDEDED;
     opacity: 0.9;
@@ -76,6 +77,7 @@ body {
     @include border-radius(2px);
     @include box-shadow(0 1px 4px rgba(0,0,0,0.3)); 
     border: 1px solid #EDEDED;
+    @include border-box-sizing;
 
     .kik-stats {
       height: 40px;
