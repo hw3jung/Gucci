@@ -148,8 +148,9 @@ $(document).ready(function() {
 
   var HomeFeedView      = FeedView.extend({ feedCategories: [] });
   var SportsFeedView    = FeedView.extend({ feedCategories: ['sports'] });
-  var PoliticsFeedView  = FeedView.extend({ feedCategories: ['politics'] });
-  var CelebrityFeedView = FeedView.extend({ feedCategories: ['celebrity'] });
+  var PoliticsFeedView  = FeedView.extend({ feedCategories: ['politics', 'headline'] });
+  var CelebrityFeedView = FeedView.extend({ feedCategories: ['celebrity', 'life'] });
+  var TechFeedView      = FeedView.extend({ feedCategories: ['tech'] });
 
   var StoryView = Backbone.View.extend({
     tagName: 'li',
@@ -159,7 +160,8 @@ $(document).ready(function() {
       'tmz' : 'http://upload.wikimedia.org/wikipedia/commons/5/54/TMZLogo.svg',
       'nyt' : 'http://upload.wikimedia.org/wikipedia/commons/7/77/The_New_York_Times_logo.png',
       'bbc' : 'https://2.gravatar.com/avatar/e06c65f9e89d28025c47b6046f701c13?d=https%3A%2F%2Fidenticons.github.com%2F1b38f1ee5d9820f661140aeecbae649a.png&s=400',
-      'espn': 'http://images3.wikia.nocookie.net/__cb20090419231813/disney/images/8/8f/ESPN_wordmark.png'
+      'espn': 'http://images3.wikia.nocookie.net/__cb20090419231813/disney/images/8/8f/ESPN_wordmark.png',
+      'usa' : 'http://citizensclimatelobby.org/wp-content/uploads/2013/08/USAToday-Logo-trans.gif'
     },
     initialize: function(args) {
       this.story               = args.story;
@@ -243,6 +245,7 @@ $(document).ready(function() {
         }.bindTo(this);
         this.slideShowIntervalID = setInterval(swapImage, this.SLIDE_SHOW_INTERVAL);
       }.bindTo(this);
+      
       setTimeout(init, Math.random() * 2500);
     },
   });

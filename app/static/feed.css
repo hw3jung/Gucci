@@ -62,16 +62,16 @@ body {
   -moz-box-shadow: 0 0 16px #ededed !important;
   box-shadow: 0 0 16px #ededed !important;
   background-color: rgba(255, 255, 255, 0.9);
-  color: black;
-  font-weight: normal;
+  color: #4D4D4D !important;
+  font-weight: normal !important;
   border: 1px solid #EDEDED;
   width: 100%;
   margin: 0px;
-  font-weight: bold;
-  opacity: 0.90; }
+  font-weight: bold !important;
+  opacity: 0.90 !important; }
 
 .app-content {
-  background: #fffef1 url(sos.png);
+  background: #f1f1f1 url(//mobile.gannett-cdn.com/static/usat-mobile-static-1.0.5/images/texture1x.png) repeat top left;
   color: black;
   padding: 20px;
   position: relative;
@@ -103,6 +103,7 @@ body {
       top: 10px;
       right: 10px; }
   .story .title {
+    background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
     font-size: 22px;
     color: #4D4D4D;
     padding: 10px 10px;

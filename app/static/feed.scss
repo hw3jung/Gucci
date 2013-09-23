@@ -2,6 +2,8 @@
 @import "core";
 
 $details-width: 93%;
+$grey-gradient: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
+$app-background: #F1F1F1 url(//mobile.gannett-cdn.com/static/usat-mobile-static-1.0.5/images/texture1x.png) repeat top left;
 
 body {
   font-family: 'Raleway', sans-serif !important;
@@ -12,17 +14,17 @@ body {
 .app-topbar {
   @include box-shadow(0 0 16px #EDEDED !important);  
   background-color:rgba(255, 255, 255, 0.90);
-  color: black;
-  font-weight: normal;  
+  color: #4D4D4D !important;
+  font-weight: normal !important;  
   border: 1px solid #EDEDED;
   width: 100%;
   margin: 0px;
-  font-weight: bold;
-  opacity: 0.90;
+  font-weight: bold !important;
+  opacity: 0.90 !important;
 }
 
 .app-content {
-  background: #fffef1 url(sos.png);
+  background: $app-background;
   color: black;
   padding: 20px;
   position: relative;
@@ -55,6 +57,7 @@ body {
   } 
 
    .title {
+    background: $grey-gradient;
     font-size:22px;
     color: #4D4D4D;
     padding: 10px 10px;
@@ -63,7 +66,7 @@ body {
     @include border-radius(2px);
     @include box-shadow(0 1px 4px rgba(0,0,0,0.3)); 
     @include border-box-sizing;    
-    background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
+    background: $grey-gradient;
     border: 1px solid #EDEDED;
     opacity: 0.9;
    } 
@@ -81,7 +84,7 @@ body {
 
     .kik-stats {
       height: 40px;
-      background: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
+      background: $grey-gradient;
       padding: 0px;
       @extend .clearfix;
 
