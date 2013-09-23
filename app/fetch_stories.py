@@ -343,8 +343,8 @@ class ESPNStoryFetcher(StoryFetcher):
 class USATodayStoryFetcher(StoryFetcher):
     MAX_CALLS_PER_DAY = 450
     API_KEYS_DICT = {
-        'articles': '7eh2cqt7pncj7hjqxm8xtjha',
-        'breaking': 'tmezyxpqqvyx5n8a88xrjnzn'
+        'articles': '75n2e9rcmkz73c2td5mrs5pa',
+        'breaking': 'ft3nuxmpwx53caz3buptba66'
     }
 
     BASE_URI = 'http://api.usatoday.com/open/articles/mobile/topnews'
