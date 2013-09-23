@@ -39,12 +39,13 @@ $(document).ready(function() {
       if(this.stories.length > 0) {
         this.latestStoryID = this.stories[0].id;
         this.oldestStoryID = this.stories[this.stories.length - 1].id;
+        this.startTimeout();
       } else {
-        this.latestStoryID = null;
-        this.oldestStoryID = null;
+        this.latestStoryID = '000000000000000000000000';
+        this.oldestStoryID = '000000000000000000000000';
+        this.checkForNewStories();
       }
       this.setElement(args.el);
-      this.startTimeout();     
     },
     events: {
 
@@ -245,7 +246,7 @@ $(document).ready(function() {
         }.bindTo(this);
         this.slideShowIntervalID = setInterval(swapImage, this.SLIDE_SHOW_INTERVAL);
       }.bindTo(this);
-      
+
       setTimeout(init, Math.random() * 2500);
     },
   });
@@ -255,6 +256,18 @@ $(document).ready(function() {
       el: $(page).find('.feed'),
       initialStories: window.PAGE_PARAMS.homeStories
     }).render();
+    $(page).on('appShow', function () {
+      $(page).find('.dropdown').hide();  
+    });    
+    
+    $(page).find('.app-title').click(function() {
+      var el = $(page).find('.dropdown');
+      if(el.is(':visible')) {
+        $(page).find('.dropdown').hide();  
+      } else {
+        $(page).find('.dropdown').show();
+      }
+    });
   });
 
   App.populator('sports', function (page) {
@@ -273,6 +286,13 @@ $(document).ready(function() {
 
   App.populator('celebrity', function (page) {
     window.CurrentFeedView = new CelebrityFeedView({
+      el: $(page).find('.feed'),
+      initialStories: []
+    }).render();
+  });
+
+  App.populator('tech', function (page) {
+    window.CurrentFeedView = new TechFeedView({
       el: $(page).find('.feed'),
       initialStories: []
     }).render();

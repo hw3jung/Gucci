@@ -5,6 +5,11 @@ $details-width: 93%;
 $grey-gradient: #e6e6e6 url("//d36xtkk24g8jdx.cloudfront.net/bluebar/498850c/images/bg/white-gradient-100px.png") repeat-x 50% 50%;
 $app-background: #F1F1F1 url(//mobile.gannett-cdn.com/static/usat-mobile-static-1.0.5/images/texture1x.png) repeat top left;
 
+a { 
+  color: inherit; 
+  text-decoration: none;
+} 
+
 body {
   font-family: 'Raleway', sans-serif !important;
   overflow-x:hidden; 
@@ -21,6 +26,12 @@ body {
   margin: 0px !important;;
   font-weight: bold !important;
   opacity: 0.90 !important;
+  height: auto !important;
+  .app-title {
+    margin: 0px auto;
+    text-align: center;
+    float: none !important;
+  }
 }
 
 .app-content {
@@ -30,6 +41,21 @@ body {
   position: relative;
   top: -50px;
   padding: 55px 25px;
+}
+
+.dropdown {
+  @include animation-duration(0.3s);
+  display: none;
+  padding: 5px 20px;
+  margin: 0px auto;
+  text-align: center;
+  li:not(:first-of-type) {
+    border-top: 1px solid #F5F5F5;
+  }
+
+  li {
+    padding: 10px 0px;
+  }
 }
 
 .story {
@@ -56,7 +82,7 @@ body {
     }     
   } 
 
-   .title {
+  .title {
     background: $grey-gradient;
     font-size:22px;
     color: #4D4D4D;
@@ -69,7 +95,7 @@ body {
     background: $grey-gradient;
     border: 1px solid #EDEDED;
     opacity: 0.9;
-   } 
+  } 
 
   .s-details {
     background-color: white;

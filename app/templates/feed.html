@@ -17,6 +17,11 @@
     <div class="app-page" data-page="home">
       <div class="app-topbar">
         <div class="app-title">Home</div>
+        <ul class="dropdown animated fadeInDown">
+          <li class="item"> <a href="javascript:App.load('tech');"> Technology </a></li>
+          <li class="item"> <a href="javascript:App.load('celebrity');"> Celebrity </a></li>
+          <li class="item"> <a href="javascript:App.load('sports');"> Sports </a></li>
+        </ul>        
       </div>
       <div class="app-content">
         <ul class="feed">
@@ -25,8 +30,13 @@
     </div>    
     <div class="app-page" data-page="sports">
       <div class="app-topbar">
-        <div class="app-button left">Back</div>
+        <div class="app-button left" data-back="true">Back</div>
         <div class="app-title">Sports</div>
+        <ul class="dropdown animated fadeInDown">
+          <li class="item"> <a href="javascript:App.load('tech');"> Technology </a></li>
+          <li class="item"> <a href="javascript:App.load('celebrity');"> Celebrity </a></li>
+          <li class="item"> <a href="javascript:App.load('sports');"> Sports </a></li>
+        </ul>         
       </div>
       <div class="app-content">
         <ul class="feed">
@@ -35,8 +45,13 @@
     </div>  
     <div class="app-page" data-page="politics">
       <div class="app-topbar">
-        <div class="app-button left">Back</div>
+        <div class="app-button left" data-back="true">Back</div>
         <div class="app-title">Politics</div>
+        <ul class="dropdown animated fadeInDown">
+          <li class="item"> <a href="javascript:App.load('tech');"> Technology </a></li>
+          <li class="item"> <a href="javascript:App.load('celebrity');"> Celebrity </a></li>
+          <li class="item"> <a href="javascript:App.load('sports');"> Sports </a></li>
+        </ul>         
       </div>
       <div class="app-content">
         <ul class="feed">
@@ -45,14 +60,34 @@
     </div>
     <div class="app-page" data-page="celebrity">
       <div class="app-topbar">
-        <div class="app-button left">Back</div>
+        <div class="app-button left" data-back="true">Back</div>
         <div class="app-title">Celebrity</div>
+        <ul class="dropdown animated fadeInDown">
+          <li class="item"> <a href="javascript:App.load('tech');"> Technology </a></li>
+          <li class="item"> <a href="javascript:App.load('celebrity');"> Celebrity </a></li>
+          <li class="item"> <a href="javascript:App.load('sports');"> Sports </a></li>
+        </ul>         
       </div>
       <div class="app-content">
         <ul class="feed">
         </ul>        
       </div>
     </div>
+    <div class="app-page" data-page="tech">
+      <div class="app-topbar">
+        <div class="app-button left" data-back="true">Back</div>
+        <div class="app-title">Technology</div>
+        <ul class="dropdown animated fadeInDown">
+          <li class="item"> <a href="javascript:App.load('tech');"> Technology </a></li>
+          <li class="item"> <a href="javascript:App.load('celebrity');"> Celebrity </a></li>
+          <li class="item"> <a href="javascript:App.load('sports');"> Sports </a></li>
+        </ul>         
+      </div>
+      <div class="app-content">
+        <ul class="feed">
+        </ul>        
+      </div>
+    </div>    
     
     <!-- put your pages here -->
     <script src="http://cdn.kik.com/cards/0/cards.js"></script>
