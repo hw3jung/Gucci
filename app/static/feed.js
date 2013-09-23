@@ -197,7 +197,7 @@ $(document).ready(function() {
     },          
     render: function() {
       this.$('iframe').attr('src', this.story.link);
-      this.$('.app-title').text(this.story.title);
+      //this.$('.app-title').text(this.story.title);
       return this;
     },
     feedDidAppear: function () {
