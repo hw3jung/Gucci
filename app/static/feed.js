@@ -161,7 +161,7 @@ $(document).ready(function() {
     },
     setNoMoreStoriesView: function (argument) {
       if(this.stories.length == 0)
-        this.loadingLi.text('Sorry, there are no more stories here');
+        this.loadingLi.text('Sorry, there are no stories here');
       else
         this.loadingLi.text('Sorry, there are no more stories');
       $(this.el).append(this.loadingLi);
