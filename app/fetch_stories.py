@@ -141,7 +141,7 @@ class NYTStoryFetcher(StoryFetcher):
 class BBCStoryFetcher(StoryFetcher):
     MAX_CALLS_PER_DAY = 10000
     BASE_URI = 'http://api.bbcnews.appengine.co.uk/stories/'
-    topics = ['headlines', 'world']
+    TOPICS = ['headlines', 'world']
 
     def store_stories(self, articles):
         client = get_mongo_client()
@@ -180,7 +180,7 @@ class BBCStoryFetcher(StoryFetcher):
     def fetch_stories(self):
         client = get_mongo_client()
 
-        for topic in self.topics:
+        for topic in self.TOPICS:
             api_uri = self.BASE_URI + topic
 
             req = urllib2.Request(api_uri)
@@ -341,19 +341,84 @@ class ESPNStoryFetcher(StoryFetcher):
 
 
 class USATodayStoryFetcher(StoryFetcher):
-    MAX_CALLS_PER_DAY = 7400
+    MAX_CALLS_PER_DAY = 900
     API_KEYS_DICT = {
         'articles': '7eh2cqt7pncj7hjqxm8xtjha',
         'breaking': 'tmezyxpqqvyx5n8a88xrjnzn'
     }
-    BASE_URI = 'http://api.usatoday.com/open/'
+
+    BASE_URI = 'http://api.usatoday.com/open/articles/mobile/topnews'
+    TOPICS = ['tech', 'life']
+    MAX_ARTICLES = 50
+
+    def store_stories(self, articles, topic):
+        client = get_mongo_client()
+        db = client.get_default_database()
+        article_collection = db['articles']
+        self.log('%d potentially new articles' % (len(articles)))
+        new_articles = []
+        for article in articles:
+            if article_collection.find({'u': article['link']}).count() > 0:
+                continue
+
+            images = []
+
+            try:
+                # retrieve image from news link
+                req = urllib2.Request(article['link'])
+                response = urllib2.urlopen(req)
+                soup = BeautifulSoup(response.read(), 'lxml')
+                media = soup.find_all('aside', itemprop='associatedMedia', class_='single-photo')
+
+                if len(media) == 0:
+                    continue
+
+                media = media[0]
+                images.append(media.find_all('img')[0].get('src'))
+            except Exception as e:
+                pass
+
+            published_date = article['pubDate']
+            published_date = datetime.fromtimestamp(
+                time.mktime(time.strptime(published_date, '%a, %d %b %Y %I:%M:%S %Z')))
+
+            params = {
+                'u': article['link'],
+                'c': topic,
+                't': article['title'],
+                's': article['description'],
+                'd': published_date,
+                'w': 'usa',
+                'i': images,
+                'k': 0
+            }
+            if len(params['i']) == 0: continue
+            new_articles.append(params)
+
+        if len(new_articles) > 0:
+            article_collection.insert(new_articles)
+        else:
+            self.log('no new articles to insert')
+
+        close_mongo_client(client)
 
     def fetch_stories(self):
-        api_uri = ""
+        client = get_mongo_client()
 
-        req = urllib2.Request(api_uri)
-        response = urllib2.urlopen(req)
-        response = json.loads(response.read())
+        for topic in self.TOPICS:
+            api_uri = '%s/%s?api_key=%s&encoding=json&days=2&count=%s' % \
+                (self.BASE_URI, topic, self.API_KEYS_DICT['articles'], self.MAX_ARTICLES)
+
+            req = urllib2.Request(api_uri)
+            response = urllib2.urlopen(req)
+
+            result = json.loads(response.read())
+            response.close()
+
+            articles = result['stories']
+
+            # push data into mongo
+            self.store_stories(articles, topic)
 
 
 def main():
@@ -363,10 +428,12 @@ def main():
     nyt = NYTStoryFetcher()
     tmz = TMZStoryFetcher()
     espn = ESPNStoryFetcher()
+    usa = USATodayStoryFetcher()
 
     nyt.start()
     tmz.start()
     espn.start()
+    usa.start()
 
 if __name__ == '__main__':
     main()
