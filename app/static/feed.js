@@ -1,11 +1,5 @@
 $(document).ready(function() {
 
-  var ua = navigator.userAgent.toLowerCase();
-  var isAndroid = ua.indexOf("android") > -1;
-  if(isAndroid) {
-    $('.app-topbar .app-button').text('');
-  }  
-  
   Function.prototype.bindTo = function(obj) {
     return _.bind(this, obj);
   };
