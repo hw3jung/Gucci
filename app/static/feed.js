@@ -59,6 +59,7 @@ $(document).ready(function() {
 
     },          
     render: function(animateIn) {
+      animateIn = false;
       this.stories.shuffle();
       _.each(this.stories, function(storyData, i) {
         if(storyData.images.length > 0) {
