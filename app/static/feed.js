@@ -180,6 +180,28 @@ $(document).ready(function() {
     }  
   });
 
+  var StoryPageView = Backbone.View.extend({
+    tagName: 'div',
+    loadingLi: $('<li></li>').css('text-align', 'center'),
+    initialize: function(args) {
+      this.story       = args.story;
+      this.setElement(args.el);
+    },
+    events: {
+
+    },          
+    render: function() {
+      this.$('iframe').attr('src', this.story.link);
+      return this;
+    },
+    feedDidAppear: function () {
+      // feed came back into view
+    },
+    feedDidDisappear: function () {
+      // feed left view
+    }  
+  });
+
   var HomeFeedView             = FeedView.extend({ feedCategories: [] });
   var SportsFeedView           = FeedView.extend({ feedCategories: ['sports'] });
   var PoliticsFeedView         = FeedView.extend({ feedCategories: ['politics', 'headline'] });
@@ -210,11 +232,7 @@ $(document).ready(function() {
       'click .kik-it' : 'kikIt',
     }, 
     goToLink: function () {
-      if (this.story.link.href) {
-        cards.open(this.story.link.href); 
-      } else {
-        cards.open(this.story.link);
-      }
+      App.load('story', this.story);
     },
     render: function() {
       if(this.isPrepended) {
@@ -312,7 +330,7 @@ $(document).ready(function() {
     $(page).find('.page-link').on('touchstart', function() {
       App.load($(this).data('page'));
     });
-  }
+  };
 
   App.populator('home', function (page) {
     window.CurrentFeedView = new HomeFeedView({
@@ -367,6 +385,14 @@ $(document).ready(function() {
       el: $(page).find('.feed'),
       initialStories: []
     }).render(true);
+    SetPageEventHandlers(page);
+  });
+
+  App.populator('story', function (page, args) {
+    new StoryPageView({
+      el: page,
+      story: args
+    }).render();
     SetPageEventHandlers(page);
   });
 
