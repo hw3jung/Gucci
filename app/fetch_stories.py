@@ -84,7 +84,7 @@ class NYTStoryFetcher(StoryFetcher):
                             if metadata['width'] > largest['width']:
                                 largest = metadata
 
-                    if largest:
+                    if largest and largest['width'] >= 200:
                         images.append(largest['url'])
 
             published_date = datetime.fromtimestamp(
