@@ -25,18 +25,11 @@ $(document).ready(function() {
     return array;
   }; 
 
-  $(window).scroll(function() {  
-    if($(window).scrollTop() == $(document).height() - $(window).height()) { 
-      if(window.CurrentFeedView) {
-        window.CurrentFeedView.loadOlderStories();
-      } 
-    }  
-  });  
-
   var FeedView = Backbone.View.extend({
     tagName: 'ul',
     POLL_INTERVAL: 10000,
     feedCategories: [],
+    loadingNewStories: false,
     loadingOlderStories: false,
     noMoreOlderStories: false,
     loadingLi: $('<li></li>').css('text-align', 'center'),
@@ -84,6 +77,9 @@ $(document).ready(function() {
       );
     },
     checkForNewStories: function(cb) {
+      if(this.loadingNewStories) return;
+
+      this.loadingNewStories = true;
       var onComplete = function(data) {
         if(data.stories.length > 0) {
           this.latestStoryID = data.stories[
@@ -97,6 +93,13 @@ $(document).ready(function() {
             this.prependStory(story);
           }
         }.bindTo(this));
+        this.loadingNewStories = false;
+        this.startTimeout();
+      }.bindTo(this);
+
+      var onError = function () {
+        this.loadingLi.detach();
+        this.loadingNewStories = false;
         this.startTimeout();
       }.bindTo(this);
 
@@ -106,16 +109,16 @@ $(document).ready(function() {
         url: '/api/stories/since',
         data: { 'since': this.latestStoryID, 'categories[]': this.feedCategories },
         success: onComplete,
-        error: this.startTimeout.bindTo(this)
+        error: onError
       });
     },
     loadOlderStories: function () {
       if(this.loadingOlderStories || this.noMoreOlderStories) return;
+
       this.showBottomSpinner();
       this.loadingOlderStories = true;
       var onComplete = function(data) {
         this.loadingLi.detach();
-        this.loadingOlderStories = false;
         if(data.stories.length > 0) {
           this.oldestStoryID = data.stories[
             data.stories.length - 1
@@ -123,20 +126,19 @@ $(document).ready(function() {
         } else {
           this.noMoreOlderStories = true;
           this.setNoMoreStoriesView();
-        }        
+        }
         data.stories.shuffle();
         _.each(data.stories, function(story) {
           if(story.images.length > 0) {
             this.appendStory(story);
-          }          
+          }
         }.bindTo(this));
-        this.startTimeout();
+        this.loadingOlderStories = false;
       }.bindTo(this);
 
       var onError = function () {
         this.loadingLi.detach();
         this.loadingOlderStories = false;
-        this.startTimeout();
       }.bindTo(this);
 
       $.ajax({
@@ -372,6 +374,15 @@ $(document).ready(function() {
     $(page).find('.page-link').on('touchstart', function() {
       App.load($(this).data('page'));
     });
+
+    var appContent = $(page).find('.app-content');
+    appContent.scroll(function() {
+      if($(page).find('.feed').height() - 100 <= $(appContent).scrollTop() + $(appContent).height()) {
+        if(window.CurrentFeedView) {
+          window.CurrentFeedView.loadOlderStories();
+        }
+      }
+    });  
   };
 
   App.populator('home', function (page) {
