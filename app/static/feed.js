@@ -235,7 +235,6 @@ $(document).ready(function() {
               var me = $(this);
               currentImage.addClass('animated fadeOut');
               setTimeout(function() {
-                console.log('i was called');
                 currentImage.replaceWith(me);
                 me.show();
                 currentImage = $(me);
