@@ -169,6 +169,7 @@ $(document).ready(function() {
     },
     initialize: function(args) {
       this.story = args.story;
+      this.slideShowTimeoutID = null;
     },
     events: {
       'click .image'  : 'goToLink',
@@ -212,7 +213,13 @@ $(document).ready(function() {
             data      : { 'link' : link, 'story_id' : this.story.id } // optional
         });
       }
-    }
+    },
+    initImageSlideShow: function() {
+      var swapImage = function () {
+        
+      }.bindTo(this);
+      this.slideShowTimeoutID = setTimeout(func, delay)
+    },
   });
 
   App.populator('home', function (page) {

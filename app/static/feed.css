@@ -51,6 +51,7 @@ ul {
   margin: 0px; }
 
 body {
+  font-family: 'Raleway', sans-serif !important;
   overflow-x: hidden;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -104,8 +105,7 @@ body {
   .story .title {
     font-size: 18px;
     color: #4D4D4D;
-    font-weight: bold;
-    padding: 5px 5px;
+    padding: 10px 10px;
     width: 93%;
     margin: 0px auto;
     -webkit-border-radius: 2px;
