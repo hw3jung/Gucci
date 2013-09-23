@@ -229,13 +229,17 @@ $(document).ready(function() {
           }
           $('<img />')
             .attr('src', images[index])
-            .addClass('image')
+            .css('opacity', '0')
+            .addClass('image animated fadeIn')
             .load(function() {
-              var me = this;
-              currentImage.fadeOut('medium', function() {
-                $(this).replaceWith(me);
-              });
-              currentImage = $(me);
+              var me = $(this);
+              currentImage.addClass('animated fadeOut');
+              setTimeout(function() {
+                console.log('i was called');
+                currentImage.replaceWith(me);
+                me.show();
+                currentImage = $(me);
+              }, 500);
             });
         }.bindTo(this);
         this.slideShowIntervalID = setInterval(swapImage, this.SLIDE_SHOW_INTERVAL);
