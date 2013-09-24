@@ -81,7 +81,7 @@ $(document).ready(function() {
           setTimeout(function () {
             this.$('.animated')
                 .removeClass('animated bounceInDown');
-          }.bindTo(this), 300);
+          }.bindTo(this), 700);
         }.bindTo(this));
         this.loadingLi.detach();
         this.loadingNewStories = false;
