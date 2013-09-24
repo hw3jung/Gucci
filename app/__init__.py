@@ -42,8 +42,7 @@ def get_older_stories():
 @app.route('/api/story/kik', methods=['POST'])
 def kik_story():
 	story_id = request.form.get('story_id')
-	success  = stories.kik(story_id)
-	return json.dumps({'success': success})
+	return json.dumps({ 'success': stories.kik(story_id) })
 
-if __name__ == '__main__' and app.config['DEBUG'] and True:
+if __name__ == '__main__' and app.config['DEBUG'] and False:
     app.run()

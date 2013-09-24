@@ -57,16 +57,9 @@ $(document).ready(function() {
       this.stories.shuffle();
       _.each(this.stories, function(storyData, i) {
         if(storyData.images.length > 0) {
-          if(animateIn && i == storyData.images.length - 1) {
-            //only animate last item
-            this.storieViews.push(
-              this.prependStory(storyData)
-            ); 
-          } else {
-            this.storieViews.push(
-              this.appendStory(storyData)
-            );            
-          }
+          this.storieViews.push(
+            this.appendStory(storyData)
+          );            
         }
       }.bindTo(this));
       return this;
