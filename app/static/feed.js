@@ -139,7 +139,7 @@ $(document).ready(function() {
           setTimeout(function () {
             this.$('.animated')
                 .removeClass('animated bounceInDown');
-          }.bindTo(this), 10  00);
+          }.bindTo(this), 1000);
         }.bindTo(this));
         this.loadingLi.detach();
         this.loadingNewStories = false;
