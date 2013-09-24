@@ -264,7 +264,7 @@ $(document).ready(function() {
   var StoryView = Backbone.View.extend({
     tagName: 'li',
     tpl: _.template($('#story-template').html()),
-    SLIDE_SHOW_INTERVAL: 5000,
+    SLIDE_SHOW_INTERVAL: 10000,
     SOURCE_LOGOS: {
       'tmz' : 'http://upload.wikimedia.org/wikipedia/commons/5/54/TMZLogo.svg',
       'nyt' : 'http://upload.wikimedia.org/wikipedia/commons/7/77/The_New_York_Times_logo.png',
