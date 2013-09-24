@@ -32,7 +32,8 @@ $(document).ready(function() {
     loadingNewStories: false,
     loadingOlderStories: false,
     noMoreOlderStories: false,
-    loadingLi: $('<li></li>').css('text-align', 'center'),
+    loadingLi: $('<li></li>').css('text-align', 'center')
+                             .css('padding-bottom', '40px'),
     initialize: function(args) {
       this.stories       = args.initialStories;
       this.storieViews   = [];
