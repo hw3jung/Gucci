@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, url_for
+from flask import render_template
 from flask import request
 from bson import ObjectId
 import json
@@ -10,7 +10,7 @@ app.config['DEBUG'] = True
 
 @app.route('/')
 def feed():
-    home_stories      =  stories.latest(sort=-1, num_articles=50 )
+    home_stories      =  stories.latest(sort=-1, num_articles=50)
     sports_stories    =  stories.latest(categories=['sports'],             sort=-1, num_articles=20)
     celebrity_stories =  stories.latest(categories=['celebrity', 'life'] , sort=-1, num_articles=20)
     tech_stories      =  stories.latest(categories=['tech', 'technology'], sort=-1, num_articles=20)    
