@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   var ua = navigator.userAgent.toLowerCase();
-  if(ua.indexOf("android") > -1) {
+  if(ua.indexOf('android') > -1) {
     $('.app-topbar .kik-it').css('padding-top', '9px');
   }  
 
@@ -27,17 +27,23 @@ $(document).ready(function() {
 
   var FeedView = Backbone.View.extend({
     tagName: 'ul',
+    stories: [],
     POLL_INTERVAL: 10000,
     feedCategories: [],
-    loadingNewStories: false,
+    loadingNewStories:   false,
     loadingOlderStories: false,
-    noMoreOlderStories: false,
+    noMoreOlderStories:  false,
+    timerKilled:         false,
     loadingLi: $('<li></li>').css('text-align', 'center')
                              .css('padding-bottom', '40px'),
     initialize: function(args) {
-      this.stories       = args.initialStories;
       this.storieViews   = [];
       if(this.stories.length > 0) {
+        this.stories.sort(function(s1, s2) {
+          value1     = s1.id;
+          value2     = s2.id;
+          return value1 > value2 ? -1: value1 < value2 ? 1 : 0;
+        });        
         this.latestStoryID = this.stories[0].id;
         this.oldestStoryID = this.stories[this.stories.length - 1].id;
         this.startTimeout();
@@ -52,9 +58,8 @@ $(document).ready(function() {
     events: {
 
     },          
-    render: function(animateIn) {
-      animateIn = false;
-      this.stories.shuffle();
+    render: function() {
+      //this.stories.shuffle();
       _.each(this.stories, function(storyData, i) {
         if(storyData.images.length > 0) {
           this.storieViews.push(
@@ -64,14 +69,17 @@ $(document).ready(function() {
       }.bindTo(this));
       return this;
     },
-    startTimeout: function() {
-      this.pollTimeoutID = setTimeout(
-        this.checkForNewStories.bindTo(this), 
-        this.POLL_INTERVAL
-      );
+    startTimeout: function(override) {
+      if(!this.timerKilled || override) {
+        this.pollTimeoutID = setTimeout(
+          this.checkForNewStories.bindTo(this), 
+          this.POLL_INTERVAL
+        );
+        this.timerKilled = false;
+      }
     },
     checkForNewStories: function(cb) {
-      if(this.loadingNewStories) return;
+      if(this.loadingNewStories || this.timerKilled) return;
 
       this.loadingNewStories = true;
       var onComplete = function(data) {
@@ -81,9 +89,10 @@ $(document).ready(function() {
           ].id;
           this.loadingLi.detach();
         };
-        data.stories.shuffle();
+        //data.stories.shuffle();
         _.each(data.stories, function(story) {
           if(story.images.length > 0) {
+            this.stories.push(story);
             this.prependStory(story);
           }
         }.bindTo(this));
@@ -91,17 +100,17 @@ $(document).ready(function() {
         this.startTimeout();
       }.bindTo(this);
 
-      var onError = function () {
+      var onError = function() {
         this.loadingLi.detach();
         this.loadingNewStories = false;
         this.startTimeout();
       }.bindTo(this);
-
+      console.log(this.feedCategories);
       $.ajax({
         type: 'POST',
         dataType: 'json',
         url: '/api/stories/since',
-        data: { 'since': this.latestStoryID, 'categories[]': this.feedCategories },
+        data: { 'since': this.latestStoryID, 'categories': this.feedCategories },
         success: onComplete,
         error: onError
       });
@@ -121,7 +130,7 @@ $(document).ready(function() {
           this.noMoreOlderStories = true;
           this.setNoMoreStoriesView();
         }
-        data.stories.shuffle();
+        //data.stories.shuffle();
         _.each(data.stories, function(story) {
           if(story.images.length > 0) {
             this.appendStory(story);
@@ -159,6 +168,8 @@ $(document).ready(function() {
       return view;
     },
     killPollTimeout: function () {
+      console.log('killing timer');
+      this.timerKilled = true;
       clearTimeout(this.pollTimeoutID);
     },
     setNoMoreStoriesView: function (argument) {
@@ -174,12 +185,12 @@ $(document).ready(function() {
     },
     feedDidAppear: function () {
       // feed came back into view
-      this.startTimeout();
+      this.startTimeout(true);
     },
     feedDidDisappear: function () {
       // feed left view
       this.killPollTimeout();
-    }  
+    }
   });
 
   var StoryPageView = Backbone.View.extend({
@@ -233,13 +244,13 @@ $(document).ready(function() {
     }      
   });
 
-  var HomeFeedView             = FeedView.extend({ feedCategories: [] });
-  var SportsFeedView           = FeedView.extend({ feedCategories: ['sports'] });
-  var PoliticsFeedView         = FeedView.extend({ feedCategories: ['politics', 'headline'] });
-  var CelebrityFeedView        = FeedView.extend({ feedCategories: ['celebrity', 'life'] });
-  var TechFeedView             = FeedView.extend({ feedCategories: ['tech'] });
-  var BusinessAndMoneyFeedView = FeedView.extend({ feedCategories: ['business', 'money'] });
-  var WorldFeedView            = FeedView.extend({ feedCategories: ['world'] });
+  var HomeFeedView             = FeedView.extend({ stories: window.PAGE_PARAMS.homeStories,   feedCategories: [] });
+  var SportsFeedView           = FeedView.extend({ stories: window.PAGE_PARAMS.sportsStories, feedCategories: ['sports'] });
+  //var PoliticsFeedView         = FeedView.extend({ stories: window.Stories,       feedCategories: ['politics', 'headline'] });
+  var CelebrityFeedView        = FeedView.extend({ stories: window.PAGE_PARAMS.celebrityStories, feedCategories: ['celebrity', 'life'] });
+  var TechFeedView             = FeedView.extend({ stories: window.PAGE_PARAMS.techStories,   feedCategories: ['tech'] });
+  var BusinessAndMoneyFeedView = FeedView.extend({ stories: window.PAGE_PARAMS.businessAndMoneyStories, feedCategories: ['business', 'money'] });
+  var WorldFeedView            = FeedView.extend({ stories: window.PAGE_PARAMS.worldStories,  feedCategories: ['world'] });
 
   var StoryView = Backbone.View.extend({
     tagName: 'li',
@@ -389,7 +400,6 @@ $(document).ready(function() {
   App.populator('home', function (page) {
     window.CurrentFeedView = new HomeFeedView({
       el: $(page).find('.feed'),
-      initialStories: window.PAGE_PARAMS.homeStories
     }).render();     
     SetPageEventHandlers(page);  
   });
@@ -397,7 +407,6 @@ $(document).ready(function() {
   App.populator('sports', function (page) {
     window.CurrentFeedView = new SportsFeedView({
       el: $(page).find('.feed'),
-      initialStories: window.PAGE_PARAMS.sportsStories
     }).render(true);
     SetPageEventHandlers(page);
   });
@@ -405,7 +414,6 @@ $(document).ready(function() {
   App.populator('politics', function (page) {
     window.CurrentFeedView = new PoliticsFeedView({
       el: $(page).find('.feed'),
-      initialStories: []
     }).render(true);
     SetPageEventHandlers(page);
   });                
@@ -413,7 +421,6 @@ $(document).ready(function() {
   App.populator('celebrity', function (page) {
     window.CurrentFeedView = new CelebrityFeedView({
       el: $(page).find('.feed'),
-      initialStories: window.PAGE_PARAMS.celebrityStories
     }).render(true);
     SetPageEventHandlers(page);
   });
@@ -421,7 +428,6 @@ $(document).ready(function() {
   App.populator('tech', function (page) {
     window.CurrentFeedView = new TechFeedView({
       el: $(page).find('.feed'),
-      initialStories: window.PAGE_PARAMS.techStories
     }).render(true);
     SetPageEventHandlers(page);
   });
@@ -429,15 +435,13 @@ $(document).ready(function() {
   App.populator('bm', function (page) {
     window.CurrentFeedView = new BusinessAndMoneyFeedView({
       el: $(page).find('.feed'),
-      initialStories: window.PAGE_PARAMS.businessAndMoneyStories
     }).render(true);
     SetPageEventHandlers(page);
   });
 
   App.populator('world', function (page) {
     window.CurrentFeedView = new WorldFeedView({
-      el: $(page).find('.feed'),
-      initialStories: []
+      el: $(page).find('.feed')
     }).render(true);
     SetPageEventHandlers(page);
   });
