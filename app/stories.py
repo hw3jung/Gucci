@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from fetchers
+from fetchers import get_mongo_client, close_mongo_client
 import json
 from bson import ObjectId
 
