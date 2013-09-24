@@ -17,8 +17,7 @@ article_mapper = \
 def latest(categories=None, offset=0, num_articles=30, sort=1):
     client     = get_mongo_client()
     collection = client.get_default_database()['articles']
-    query      = { '$in': categories } if categories else {}
-
+    query      = { 'c': { '$in': categories } } if categories else {}
     articles =  collection \
                 .find(query) \
                 .sort('_id', sort)\
