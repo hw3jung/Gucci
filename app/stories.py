@@ -1,7 +1,7 @@
-from pymongo import MongoClient
+from pymongo  import MongoClient
 from fetchers import get_mongo_client, close_mongo_client
+from bson     import ObjectId
 import json
-from bson import ObjectId
 
 
 article_mapper = \
@@ -16,8 +16,7 @@ article_mapper = \
 
 def latest(categories=None, offset=0, num_articles=30, sort=1):
     client     = get_mongo_client()
-    db         = client.get_default_database()
-    collection = db['articles']
+    collection = client.get_default_database()['articles']
     query      = { '$in': categories } if categories else {}
 
     articles =  collection \
@@ -31,8 +30,7 @@ def latest(categories=None, offset=0, num_articles=30, sort=1):
 
 def since(since_id, categories=None, num_articles=10, sort=1):
     client     = get_mongo_client()
-    db         = client.get_default_database()
-    collection = db['articles']
+    collection = client.get_default_database()['articles']
     query      = { '_id': {'$gt': ObjectId(since_id) } }
 
     if categories:
@@ -48,8 +46,7 @@ def since(since_id, categories=None, num_articles=10, sort=1):
 
 def before(before_id, categories=None, num_articles=10, sort=-1):
     client     = get_mongo_client()
-    db         = client.get_default_database()
-    collection = db['articles']
+    collection = client.get_default_database()['articles']
     query      = { '_id': {'$lt': ObjectId(before_id)} }
 
     if categories:
@@ -68,9 +65,7 @@ def kik(article_id):
 
     try:
         client     = get_mongo_client()
-        db         = client.get_default_database()
-        collection = db['articles']
-
+        collection = client.get_default_database()['articles']
         collection.update(
             { '_id'  : ObjectId(article_id) },
             { '$inc' : { 'k' : 1 } }
