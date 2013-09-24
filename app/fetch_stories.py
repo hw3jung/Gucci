@@ -267,7 +267,7 @@ class TMZStoryFetcher(StoryFetcher):
 
 
 class ESPNStoryFetcher(StoryFetcher):
-    MAX_CALLS_PER_DAY = 7400
+    MAX_CALLS_PER_DAY = 7000
     API_KEY = 'dwk3nu6pd75r5ewrhp6kggsv'
     API_SECRET = 'A9ctQPd8xsBdgzkWjw45nrrs'
     BASE_URI = 'http://api.espn.com/v1'
