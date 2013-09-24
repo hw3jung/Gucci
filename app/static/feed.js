@@ -180,7 +180,6 @@ $(document).ready(function() {
         this.oldestStoryID = data.stories[
           data.stories.length - 1
         ].id;
-        this.stories.push(story);
       } else {
         this.noMoreOlderStories = true;
         this.setNoMoreStoriesView();
