@@ -33,6 +33,7 @@
             <li class="item page-link" data-page="sports"> Sports </li>
             <li class="item page-link" data-page="bm"> Business & Money</li>
             <li class="item page-link" data-page="world"> World</li>
+            <li class="item page-link" data-page="mostkiked"> Most Kik'd</li>
           </ul>           
         </div>       
       </div>
@@ -57,6 +58,7 @@
             <li class="item page-link" data-page="celebrity"> Celebrity </li>
             <li class="item page-link" data-page="bm"> Business & Money</li>
             <li class="item page-link" data-page="world"> World</li>
+            <li class="item page-link" data-page="mostkiked"> Most Kik'd</li>
           </ul>         
         </div>
       </div>
@@ -65,31 +67,6 @@
         </ul>        
       </div>
     </div>  
-    <div class="app-page" data-page="politics">
-      <div class="app-topbar">
-        <div class="app-button left" data-back="true"></div>
-        <a class="menu-toggle-btn main-nav-btn">
-          <span class="menu-toggle-hr"></span>
-          <span class="menu-toggle-hr"></span>
-          <span class="menu-toggle-hr"></span>
-        </a>         
-        <div class="app-title">Politics</div>
-        <div class="dropdown-container">
-          <ul class="dropdown ">
-            <li class="item page-link" data-page="home"> Home </li>
-            <li class="item page-link" data-page="tech"> Technology </li>
-            <li class="item page-link" data-page="celebrity"> Celebrity </li>
-            <li class="item page-link" data-page="sports"> Sports </li>
-            <li class="item page-link" data-page="bm"> Business & Money</li>
-            <li class="item page-link" data-page="world"> World</li>
-          </ul>    
-        </div>     
-      </div>
-      <div class="app-content">
-        <ul class="feed">
-        </ul>        
-      </div>
-    </div>
     <div class="app-page" data-page="celebrity">
       <div class="app-topbar">
         <div class="app-button left" data-back="true"></div>
@@ -106,6 +83,7 @@
             <li class="item page-link" data-page="sports"> Sports </li>
             <li class="item page-link" data-page="bm"> Business & Money</li>
             <li class="item page-link" data-page="world"> World</li>
+            <li class="item page-link" data-page="mostkiked"> Most Kik'd</li>
           </ul>         
         </div>
       </div>
@@ -130,6 +108,7 @@
             <li class="item page-link" data-page="sports"> Sports </li>
             <li class="item page-link" data-page="bm"> Business & Money</li>
             <li class="item page-link" data-page="world"> World</li>
+            <li class="item page-link" data-page="mostkiked"> Most Kik'd</li>
           </ul>         
         </div>
       </div>
@@ -154,6 +133,7 @@
             <li class="item page-link" data-page="celebrity"> Celebrity </li>
             <li class="item page-link" data-page="sports"> Sports </li>
             <li class="item page-link" data-page="world"> World</li>
+            <li class="item page-link" data-page="mostkiked"> Most Kik'd</li>
           </ul>         
         </div>
       </div>
@@ -178,6 +158,8 @@
             <li class="item page-link" data-page="celebrity"> Celebrity </li>
             <li class="item page-link" data-page="sports"> Sports </li>
             <li class="item page-link" data-page="bm"> Business & Money</li>
+            <li class="item page-link" data-page="world"> World</li>
+            <li class="item page-link" data-page="mostkiked"> Most Kik'd</li>
           </ul>         
         </div>
       </div>
@@ -186,6 +168,30 @@
         </ul>        
       </div>
     </div>  
+    <div class="app-page" data-page="mostkiked">
+      <div class="app-topbar">
+        <div class="app-button left" data-back="true"></div>
+        <a class="menu-toggle-btn main-nav-btn">
+          <span class="menu-toggle-hr"></span>
+          <span class="menu-toggle-hr"></span>
+          <span class="menu-toggle-hr"></span>
+        </a>         
+        <div class="app-title">Most Kik'd</div>
+        <div class="dropdown-container">
+          <ul class="dropdown ">
+            <li class="item page-link" data-page="home"> Home </li>
+            <li class="item page-link" data-page="tech"> Technology </li>
+            <li class="item page-link" data-page="celebrity"> Celebrity </li>
+            <li class="item page-link" data-page="sports"> Sports </li>
+            <li class="item page-link" data-page="bm"> Business & Money</li>
+          </ul>         
+        </div>
+      </div>
+      <div class="app-content">
+        <ul class="feed">
+        </ul>        
+      </div>
+    </div>     
     <div class="app-page story-page" data-page="story">
       <div class="app-topbar">
         <div class="app-button left" data-back="true"></div>
@@ -214,7 +220,8 @@
         'celebrityStories': {{ celebrity_stories|tojson|safe }},
         'techStories': {{ tech_stories|tojson|safe }},
         'businessAndMoneyStories': {{ business_stories|tojson|safe }},
-        'worldStories': {{ world_stories|tojson|safe }}
+        'worldStories': {{ world_stories|tojson|safe }},
+        'mostKikedStories': {{ most_kiked|tojson|safe }}
       };
       window.CurrentFeedView = null;
     </script>

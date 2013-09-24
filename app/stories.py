@@ -18,11 +18,11 @@ def latest(categories=None, offset=0, num_articles=30, sort=1):
     client     = get_mongo_client()
     collection = client.get_default_database()['articles']
     query      = { 'c': { '$in': categories } } if categories else {}
-    articles =  collection \
-                .find(query) \
-                .sort('_id', sort)\
-                .skip(offset)\
-                .limit(num_articles)
+    articles   =  collection \
+                    .find(query) \
+                    .sort('_id', sort)\
+                    .skip(offset)\
+                    .limit(num_articles)
 
     close_mongo_client(client)
     return map(article_mapper, articles)
@@ -59,9 +59,21 @@ def before(before_id, categories=None, num_articles=10, sort=-1):
     close_mongo_client(client)
     return map(article_mapper, articles)
 
+def most_kiked(offset=0, num_articles=10, sort=-1):
+    client     = get_mongo_client()
+    collection = client.get_default_database()['articles']
+    query      = { 'k': {'$gt': 0} }
+    articles   =  collection \
+                    .find(query) \
+                    .sort('k', sort) \
+                    .skip(offset) \
+                    .limit(num_articles) 
+
+    close_mongo_client(client)
+    return map(article_mapper, articles)    
+
 def kik(article_id):
     success = True
-
     try:
         client     = get_mongo_client()
         collection = client.get_default_database()['articles']
@@ -69,7 +81,6 @@ def kik(article_id):
             { '_id'  : ObjectId(article_id) },
             { '$inc' : { 'k' : 1 } }
         )
-
         close_mongo_client(client)
     except Exception as e:
         success = False
