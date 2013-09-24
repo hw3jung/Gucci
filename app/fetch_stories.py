@@ -245,10 +245,9 @@ class TMZStoryFetcher(StoryFetcher):
         soup = BeautifulSoup(response.read(), 'lxml')
         articles = soup.find_all('article', class_='post')
 
-        try:
-            article_dicts = []
-
-            for article in articles:
+        article_dicts = []
+        for article in articles:
+            try:
                 title = str(article.find_all('h1')[0].string) + ': ' + \
                     str(article.find_all('h2')[0].string)
                 img_url = article.find_all('img')[0].get('src')
@@ -259,11 +258,11 @@ class TMZStoryFetcher(StoryFetcher):
                     'img_url': img_url,
                     'link': link
                 })
+            except Exception as e:
+                pass
 
-            # push data into mongo
-            self.store_stories(article_dicts)
-        except Exception as e:
-            pass
+        # push data into mongo
+        self.store_stories(article_dicts)
 
 
 class ESPNStoryFetcher(StoryFetcher):
