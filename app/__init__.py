@@ -45,5 +45,5 @@ def kik_story():
 	success  = stories.kik(story_id)
 	return json.dumps({'success': success})
 
-if __name__ == '__main__' and app.config['DEBUG'] and False:
+if __name__ == '__main__' and app.config['DEBUG'] and True:
     app.run()
