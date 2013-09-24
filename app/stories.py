@@ -3,6 +3,7 @@ from fetch_stories import get_mongo_client, close_mongo_client
 import json
 from bson import ObjectId
 
+
 def article_mapper(article):
     return {
         'id'        : str(article['_id']),
@@ -13,7 +14,7 @@ def article_mapper(article):
         'images'    : article['i'],
     }
 
-def get_latest_stories(categories=None, offset=0, num_articles=30, sort=1):
+def latest(categories=None, offset=0, num_articles=30, sort=1):
     client = get_mongo_client()
     db     = client.get_default_database()
     article_collection = db['articles']
@@ -35,7 +36,7 @@ def get_latest_stories(categories=None, offset=0, num_articles=30, sort=1):
     close_mongo_client(client)
     return article_dicts
 
-def get_stories_since(since_id, categories=None, num_articles=10, sort=1):
+def since(since_id, categories=None, num_articles=10, sort=1):
     client = get_mongo_client()
     db     = client.get_default_database()
     article_collection = db['articles']
@@ -56,7 +57,7 @@ def get_stories_since(since_id, categories=None, num_articles=10, sort=1):
     close_mongo_client(client)
     return article_dicts
 
-def get_stories_before(before_id, categories=None, num_articles=10, sort=-1):
+def before(before_id, categories=None, num_articles=10, sort=-1):
     client = get_mongo_client()
     
     # load data from mongo, default 10 articles at a time
@@ -78,3 +79,22 @@ def get_stories_before(before_id, categories=None, num_articles=10, sort=-1):
 
     close_mongo_client(client)
     return article_dicts    
+
+def kik(article_id):
+    success = True
+
+    try:
+        client = get_mongo_client()
+        db = client.get_default_database()
+        article_collection = db['articles']
+
+        article_collection.update(
+            { '_id'  : ObjectId(article_id) },
+            { '$inc' : { 'k' : 1 }}
+        )
+
+        close_mongo_client(client)
+    except Exception as e:
+        success = False
+
+    return success
