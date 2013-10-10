@@ -206,7 +206,6 @@
     </div>       
     
     <!-- put your pages here -->
-    <script src="http://cdn.kik.com/cards/0/cards.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://cdn.kik.com/app/1/app.js"></script>
     <script src="http://underscorejs.org/underscore-min.js"></script>
@@ -214,6 +213,7 @@
     <script src="http://code.kik.com/swapper/1.0.min.js"></script>
     <script src="{{ url_for('static', filename='feed.js') }}"></script>
     <script type="text/javascript">
+      window.cards = {};
       window.PAGE_PARAMS = {
         'homeStories': {{ home_stories|tojson|safe }},
         'sportsStories': {{ sports_stories|tojson|safe }},

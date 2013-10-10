@@ -12,11 +12,12 @@ app.config['DEBUG'] = True
 def feed():
     most_kiked        =  stories.most_kiked(sort=-1, num_articles=20)    
     home_stories      =  stories.latest(sort=-1, num_articles=50)
-    sports_stories    =  stories.latest(categories=['sports'],             sort=-1, num_articles=20)
-    celebrity_stories =  stories.latest(categories=['celebrity', 'life'] , sort=-1, num_articles=20)
-    tech_stories      =  stories.latest(categories=['tech', 'technology'], sort=-1, num_articles=20)    
+    
+    tech_stories      =  stories.latest(categories=['tech', 'technology'], sort=-1, num_articles=20)   
     world_stories     =  stories.latest(categories=['world']             , sort=-1, num_articles=20)   
-    business_stories  =  stories.latest(categories=['business', 'money'] , sort=-1, num_articles=20)                              
+    sports_stories    =  stories.latest(categories=['sports'],             sort=-1, num_articles=20)
+    business_stories  =  stories.latest(categories=['business', 'money'] , sort=-1, num_articles=20)
+    celebrity_stories =  stories.latest(categories=['celebrity', 'life'] , sort=-1, num_articles=20)                               
                            
     return  render_template(
                 'feed.html', 
@@ -43,7 +44,7 @@ def get_older_stories():
 
 @app.route('/api/stories/most-kiked', methods=['POST'])
 def get_most_kiked_stories():
-    offset  = request.form.get('offset')
+    offset   = request.form.get('offset')
     _stories = stories.most_kiked(offset=int(offset), sort=-1, num_articles=20)
     return json.dumps({ 'stories': _stories })
 
@@ -54,3 +55,12 @@ def kik_story():
 
 if __name__ == '__main__' and app.config['DEBUG'] and False:
     app.run()
+
+
+
+
+
+
+
+
+
