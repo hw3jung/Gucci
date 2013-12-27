@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 import signal
 import sys
 
-MONGODB_URI = 'mongodb://heroku:f6a7beb1d678f34e3bbef2d5a6e62cbd@paulo.mongohq.com:10025/app18218091'
+MONGODB_URI = 'mongodb://heroku:LO3Wgcz0aT5TPXqcrQ-tleRr6RBTTCNYpgHMR9k3F5YqPRTMKhjIuy8bdjTQ45KKFxsFHBjMgQs0tAq-KBi_Kg@paulo.mongohq.com:10025/app18218091'
 
 
 def get_mongo_client():
